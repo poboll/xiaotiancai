@@ -78,10 +78,7 @@ button{font:inherit;color:inherit;}
 .teaser{margin-top:64px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper-2);}
 .teaser .wrap{padding-top:58px; padding-bottom:58px;}
 .teaser-inner{max-width:640px; margin:0 auto; position:relative;}
-.teaser-mark{
-  position:absolute; left:-58px; top:-26px;
-  font-size:88px; line-height:1; color:#ded3bd; font-family:var(--serif);
-}
+.teaser-mark{display:none;}
 .teaser p{
   font-size:15.5px; line-height:2.1; color:var(--ink-2);
   text-indent:2em; margin-bottom:8px; text-align:justify;
@@ -511,6 +508,7 @@ button{font:inherit;color:inherit;}
 }
 .pin-text{
   margin-top:14px; font-size:13px; line-height:1.95; color:var(--ink-3);
+  text-wrap:pretty;
 }
 .pin-r{display:flex; justify-content:flex-end;}
 .pin-cta{
