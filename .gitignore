@@ -1,6 +1,17 @@
 # 不进版本库 / 不公开
 .workbuddy-ai/
 .DS_Store
+_site/
+
+# 去重时的旧备份（270MB，全是主目录里已有的旧版本）
+_dedupe_backup/
+
+# 4K 原片：单个 160MB+，超过 GitHub 单文件 100MB 上限，只留本地
+*冈仁波齐*/video.mp4
+*半夜才天黑*/video.mp4
+
+# 冗余的 1080p 副本（已压成 video_web.mp4）
+video_1080p.mp4
 
 # 编辑器的本地缓存
 *.swp

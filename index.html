@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>拾遗馆</title>
-<meta name="description" content="把看完了走不出来的故事，收在这里。">
+<meta name="description" content="小天才（余乐彤）作品归档，以及一封没寄出的信。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -13,36 +16,64 @@
   <div class="topbar-inner">
     <a class="brand" href="./" id="site-name">拾遗馆</a>
     <nav class="nav">
-      <a href="#works">作品</a>
-      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      <a href="story.html">我为什么收这些</a>
+      <a href="#gallery">作品</a>
+      <a href="works/longlong-xiaotiancai/index.html">那封信</a>
     </nav>
   </div>
 </div>
 
-<main class="wrap">
+<main>
+
+  <!-- ── 封面 ── -->
   <section class="hero">
-    <h1 id="site-name-hero">拾遗馆</h1>
-    <p class="tagline" id="site-tagline"></p>
-    <p class="tagline" id="site-intro"></p>
-    <div class="count" id="site-count"></div>
+    <div class="wrap">
+      <h1 id="hero-name">拾遗馆</h1>
+      <div class="hero-rule"></div>
+      <p class="tagline" id="site-tagline"></p>
+      <p class="tagline dim" id="site-intro"></p>
+      <div class="count" id="site-count"></div>
+    </div>
   </section>
 
-  <section class="grid" id="works" aria-label="作品列表"></section>
+  <!-- ── 故事摘要 ── -->
+  <section class="teaser">
+    <div class="wrap">
+      <div class="teaser-inner">
+        <div class="teaser-mark">“</div>
+        <div id="story-teaser"></div>
+        <a class="more" href="story.html">剩下的在这儿　→</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 归档 ── -->
+  <section class="wrap" id="gallery">
+    <div class="gallery-head">
+      <h3 class="section-title">作品归档</h3>
+      <p class="section-note" id="gallery-note"></p>
+    </div>
+
+    <div class="pinned" id="pinned"></div>
+
+    <div class="filters" id="filters" role="tablist"></div>
+
+    <div class="masonry" id="masonry"></div>
+
+    <p class="empty" id="empty" hidden>这一类里还没有作品。</p>
+  </section>
+
 </main>
 
 <footer class="site-foot">
   <div class="wrap">
-    <span>拾遗馆 · 私人收藏，仅作记录</span>
-    <span>内容版权归原作者所有</span>
+    <span>拾遗馆 · 私人收藏，不作商业用途</span>
+    <span>影像与文字版权归原作者 小天才.（余乐彤）所有</span>
   </div>
 </footer>
 
 <script src="data/works.js"></script>
+<script src="data/library.js"></script>
 <script src="assets/app.js"></script>
-<script>
-  // 首页大标题跟随站点名
-  document.getElementById("site-name-hero").textContent =
-    (window.SITE && window.SITE.name) || "拾遗馆";
-</script>
 </body>
 </html>

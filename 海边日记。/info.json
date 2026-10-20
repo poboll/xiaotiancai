@@ -1,0 +1,62 @@
+{
+ "序号": 44,
+ "aweme_id": "7473126979210972466",
+ "标题": "海边日记。",
+ "发布时间": "2025-02-19",
+ "create_time": 1739972987,
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "sec_uid": "MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU",
+  "aweme_count": 61,
+  "signature": "阳谋无解\n抵制虐待动物"
+ },
+ "统计": {
+  "admire_count": 1,
+  "aweme_id": "7473126979210972466",
+  "collect_count": 311,
+  "comment_count": 109,
+  "digg_count": 6618,
+  "play_count": 0,
+  "recommend_count": 191,
+  "share_count": 638
+ },
+ "类型": "图文",
+ "作品链接": "https://www.douyin.com/video/7473126979210972466",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "01.webp",
+    "width": 1920,
+    "height": 1280
+   },
+   {
+    "file": "02.webp",
+    "width": 1536,
+    "height": 1024
+   },
+   {
+    "file": "03.webp",
+    "width": 1920,
+    "height": 1280
+   },
+   {
+    "file": "04.webp",
+    "width": 1920,
+    "height": 1280
+   },
+   {
+    "file": "05.webp",
+    "width": 1920,
+    "height": 1280
+   },
+   {
+    "file": "06.webp",
+    "width": 1920,
+    "height": 1280
+   }
+  ]
+ },
+ "live_photos": []
+}

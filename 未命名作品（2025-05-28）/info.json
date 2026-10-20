@@ -1,0 +1,57 @@
+{
+ "序号": 49,
+ "aweme_id": "7509483903486446905",
+ "标题": "",
+ "发布时间": "2025-05-28",
+ "create_time": 1748437974,
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "sec_uid": "MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU",
+  "aweme_count": 61,
+  "signature": "阳谋无解\n抵制虐待动物"
+ },
+ "统计": {
+  "admire_count": 4,
+  "aweme_id": "7509483903486446905",
+  "collect_count": 371,
+  "comment_count": 118,
+  "digg_count": 7797,
+  "play_count": 0,
+  "recommend_count": 269,
+  "share_count": 905
+ },
+ "类型": "图文",
+ "作品链接": "https://www.douyin.com/video/7509483903486446905",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "01.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "02.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "03.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "04.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "05.webp",
+    "width": 1440,
+    "height": 1920
+   }
+  ]
+ },
+ "live_photos": []
+}

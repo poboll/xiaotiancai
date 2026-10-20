@@ -27,12 +27,33 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Build site
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Pillow
+        run: pip install --quiet pillow
+
+      # 扫描所有作品文件夹，重新生成 data/library.js 和缩略图。
+      # 所以往仓库里丢一个新文件夹，push 之后首页会自动多一张卡片。
+      - name: Build library data
+        run: python scripts/build_library.py
+
+      - name: Assemble site
         run: |
           mkdir -p _site
-          # 只发布站点文件，跳过仓库元数据与源码说明
-          rsync -av --exclude='.git' --exclude='.github' --exclude='README.md' \
-                --exclude='_site' ./ _site/
+          rsync -av \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            --exclude='scripts' \
+            --exclude='_dedupe_backup' \
+            --exclude='_site' \
+            --exclude='.workbuddy-ai' \
+            --exclude='.DS_Store' \
+            ./ _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

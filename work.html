@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>作品 · 拾遗馆</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html">拾遗馆</a>
+    <nav class="nav">
+      <a href="index.html">← 全部作品</a>
+      <a href="story.html">故事</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <header class="work-head">
+    <div class="work-kicker" id="w-kicker"></div>
+    <h1 class="work-title" id="w-title">载入中…</h1>
+    <div class="work-date" id="w-date"></div>
+    <div class="work-tags" id="w-tags"></div>
+    <div class="work-stats" id="w-stats"></div>
+  </header>
+
+  <div class="work-body" id="w-body"></div>
+  <div class="work-video" id="w-video" hidden></div>
+
+  <nav class="work-nav" id="w-nav"></nav>
+
+  <p class="work-src" id="w-src"></p>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>拾遗馆 · 私人收藏，不作商业用途</span>
+    <span>影像与文字版权归原作者 小天才.（余乐彤）所有</span>
+  </div>
+</footer>
+
+<a class="back-fab" id="back-fab" href="index.html">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+  返回
+</a>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" id="lb-close" aria-label="关闭">×</button>
+  <button class="lb-nav prev" id="lb-prev" aria-label="上一张">‹</button>
+  <button class="lb-nav next" id="lb-next" aria-label="下一张">›</button>
+  <figure class="lb-figure">
+    <img id="lb-img" alt="">
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+</div>
+
+<script src="data/library.js"></script>
+<script src="assets/work.js"></script>
+</body>
+</html>

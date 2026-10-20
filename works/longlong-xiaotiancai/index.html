@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>致 王 卓 凡 · 拾遗馆</title>
 <meta name="description" content="《龙龙历险记》小天才篇 · 余乐彤写给王卓凡的信，附故事梗概与精选评论。">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body class="reader">
@@ -129,5 +132,21 @@
   </div>
 </footer>
 
+<a class="back-fab" href="../../index.html" id="back-fab">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+  返回
+</a>
+<script>
+(function(){
+  var f=document.getElementById("back-fab");
+  f.addEventListener("click",function(e){
+    var r=document.referrer||"";
+    if(r.indexOf(location.origin)===0&&history.length>1){e.preventDefault();history.back();}
+  });
+})();
+</script>
 </body>
 </html>
