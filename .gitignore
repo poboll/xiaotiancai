@@ -1,0 +1,6 @@
+# 不进版本库 / 不公开
+.workbuddy-ai/
+.DS_Store
+
+# 编辑器的本地缓存
+*.swp

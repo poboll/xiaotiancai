@@ -1,0 +1,256 @@
+/* ===========================================================
+   拾遗馆 · site.css
+   一个用来收故事的静态站点。浅色、纸感、宋体为主。
+   =========================================================== */
+
+:root{
+  --paper:      #faf8f4;
+  --card:       #ffffff;
+  --ink:        #1e1d1b;
+  --ink-2:      #3a3833;
+  --ink-3:      #55514a;
+  --muted:      #8b8579;
+  --line:       #e5e0d6;
+  --line-2:     #d5cec0;
+  --accent:     #8a6a45;
+  --serif: "Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  --sans:  "PingFang SC","Noto Sans SC","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{-webkit-text-size-adjust:100%;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  background:rgba(250,248,244,.88);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:1080px; margin:0 auto; padding:0 32px;
+  height:60px; display:flex; align-items:center; justify-content:space-between;
+}
+.brand{
+  font-size:14px; letter-spacing:.34em; text-indent:.34em;
+  color:var(--ink); white-space:nowrap;
+}
+.brand .sub{color:var(--muted); letter-spacing:.1em; margin-left:10px; font-size:11px;}
+.nav{display:flex; gap:22px; font-family:var(--sans); font-size:12px; color:var(--muted);}
+.nav a:hover{color:var(--ink);}
+
+/* ---------- 首页 ---------- */
+.wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+
+.hero{padding:96px 0 56px;}
+.hero h1{
+  font-size:clamp(30px,5vw,46px); font-weight:400; letter-spacing:.2em;
+  line-height:1.5; color:var(--ink);
+}
+.hero .tagline{
+  margin-top:22px; font-size:14px; color:var(--muted); letter-spacing:.04em;
+  max-width:34em;
+}
+.hero .count{
+  margin-top:30px; font-family:var(--sans); font-size:11px;
+  letter-spacing:.18em; color:var(--muted); text-transform:uppercase;
+}
+
+/* ---------- 卡片列表 ---------- */
+.grid{
+  display:grid; gap:22px;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+  padding-bottom:20px;
+}
+.card{
+  display:flex; flex-direction:column;
+  background:var(--card); border:1px solid var(--line);
+  padding:30px 28px 26px;
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--line-2);
+  box-shadow:0 10px 30px -18px rgba(60,48,30,.35);
+}
+.card .kicker{
+  font-family:var(--sans); font-size:10px; letter-spacing:.22em;
+  color:var(--accent); text-transform:uppercase; margin-bottom:14px;
+}
+.card h2{
+  font-size:23px; font-weight:400; letter-spacing:.06em; line-height:1.5;
+}
+.card .sub{
+  margin-top:8px; font-size:12.5px; color:var(--muted); letter-spacing:.02em;
+}
+.card .summary{
+  margin-top:18px; font-size:13.5px; line-height:1.95; color:var(--ink-3);
+  flex:1;
+}
+.card .foot{
+  margin-top:22px; padding-top:16px; border-top:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:var(--sans); font-size:11px; color:var(--muted);
+}
+.tags{display:flex; gap:8px; flex-wrap:wrap;}
+.tag{
+  font-family:var(--sans); font-size:10px; letter-spacing:.06em;
+  color:var(--muted); border:1px solid var(--line);
+  padding:2px 8px; border-radius:2px;
+}
+
+/* 新增作品的占位卡 */
+.card.ghost{
+  background:transparent; border-style:dashed; color:var(--muted);
+  align-items:flex-start; justify-content:center; min-height:220px;
+}
+.card.ghost h2{font-size:15px; letter-spacing:.1em; color:var(--muted);}
+.card.ghost p{font-size:12.5px; margin-top:10px; line-height:1.9; font-family:var(--sans);}
+
+/* ---------- 页脚 ---------- */
+.site-foot{
+  margin-top:80px; border-top:1px solid var(--line);
+  padding:38px 0 56px;
+}
+.site-foot .wrap{
+  display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  font-family:var(--sans); font-size:11px; color:var(--muted); letter-spacing:.06em;
+}
+
+/* ===========================================================
+   阅读页
+   =========================================================== */
+.reader{background:var(--paper);}
+
+.article{
+  max-width:768px; margin:52px auto 0; background:#fff;
+  border:1px solid var(--line); padding:64px 60px 72px;
+}
+
+/* 标题区 */
+.article header{text-align:center;}
+.article .title{
+  font-size:30px; font-weight:400; letter-spacing:.34em;
+  text-indent:.34em; color:#171717; line-height:1.6;
+}
+.article .subtitle{
+  margin-top:16px; font-family:var(--sans); font-size:10.5px;
+  letter-spacing:.18em; color:#9a9a9a; text-indent:.18em;
+}
+.rule{margin:20px auto 0; width:92px; height:1px; background:#d8d3c9; position:relative;}
+.rule::after{
+  content:""; position:absolute; left:50%; top:-2.5px; width:6px; height:6px;
+  background:#fff; border:1px solid #d8d3c9; transform:translateX(-50%) rotate(45deg);
+}
+.epigraph{
+  margin:24px auto 26px; max-width:130mm; text-align:center;
+  font-size:13.5px; line-height:1.95; color:#6f6f6f;
+}
+
+/* 小节标题 */
+.sec{
+  font-family:var(--sans); font-size:10px; letter-spacing:.3em;
+  color:#a89f92; text-align:center; margin:30px 0 18px; text-indent:.3em;
+}
+.sec:first-of-type{margin-top:4px;}
+
+/* 正文 */
+.article p{
+  font-size:15px; line-height:1.96; text-align:justify;
+  text-indent:2em; margin-bottom:8px; color:#20201e;
+}
+.article p.flush{text-indent:0;}
+
+/* 分隔线 */
+.sep{width:36px; height:1px; background:#ded8cc; margin:26px auto;}
+
+/* 落款 */
+.sign{
+  text-align:right; margin-top:34px; font-size:15px;
+  color:#3a3a38; letter-spacing:.08em;
+}
+
+/* 附录大标题 */
+.h1{
+  font-size:22px; letter-spacing:.42em; text-indent:.42em;
+  text-align:center; color:#171717; margin:0 0 14px;
+}
+.rule.sm{width:64px; margin:0 auto 30px;}
+
+/* 引文块 */
+.q{
+  font-size:13px; line-height:1.92; color:#3a3a38; text-align:justify;
+  border-left:2px solid #ddd7cb; padding-left:14px; margin:0 0 14px 4px;
+}
+.src{
+  font-family:var(--sans); font-size:9px; letter-spacing:.1em;
+  color:#aaa; text-align:right; margin:6px 2px 22px 0;
+}
+
+/* 整理说明 */
+.note{
+  font-family:var(--sans); font-size:9px; line-height:1.85; color:#a5a5a5;
+  margin-top:26px; padding-top:12px; border-top:1px solid #ece8e0;
+  text-align:justify;
+}
+
+/* 文章底部工具条 */
+.toolbar{
+  max-width:768px; margin:0 auto; padding:26px 4px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  flex-wrap:wrap; font-family:var(--sans); font-size:12px; color:var(--muted);
+}
+.toolbar .links{display:flex; gap:18px; flex-wrap:wrap;}
+.toolbar a{border-bottom:1px solid transparent; padding-bottom:1px;}
+.toolbar a:hover{color:var(--ink); border-bottom-color:var(--line-2);}
+.btn{
+  font-family:var(--sans); font-size:12px; color:var(--ink-2);
+  border:1px solid var(--line-2); background:#fff; padding:7px 16px;
+  cursor:pointer; border-radius:2px; transition:background .18s, border-color .18s;
+}
+.btn:hover{background:var(--paper); border-color:#c3bbaa;}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:720px){
+  .topbar-inner{padding:0 20px; height:54px;}
+  .brand{letter-spacing:.22em; text-indent:.22em;}
+  .brand span{display:none;}
+  .wrap{padding:0 20px;}
+  .hero{padding:60px 0 40px;}
+  .grid{grid-template-columns:1fr; gap:16px;}
+  .card{padding:24px 22px 20px;}
+  .article{margin:24px 12px 0; padding:40px 24px 48px;}
+  .article .title{font-size:24px; letter-spacing:.24em; text-indent:.24em;}
+  .article p{font-size:14.5px;}
+  .q{font-size:12.5px;}
+  .toolbar{padding:22px 16px 0;}
+}
+
+/* ---------- 打印 ---------- */
+@media print{
+  @page{size:A4; margin:24mm 26mm 20mm 26mm;}
+  body{background:#fff;}
+  .topbar,.toolbar,.site-foot,.btn{display:none !important;}
+  .article{
+    max-width:none; margin:0; border:0; padding:0;
+    box-shadow:none;
+  }
+  .article header{margin-top:0;}
+  .article p, .q, .sign, .src{page-break-inside:avoid;}
+  .q{page-break-inside:auto;}
+  .sec, .h1{page-break-after:avoid;}
+  a{color:inherit;}
+}

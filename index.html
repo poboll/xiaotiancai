@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>拾遗馆</title>
+<meta name="description" content="把看完了走不出来的故事，收在这里。">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./" id="site-name">拾遗馆</a>
+    <nav class="nav">
+      <a href="#works">作品</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="hero">
+    <h1 id="site-name-hero">拾遗馆</h1>
+    <p class="tagline" id="site-tagline"></p>
+    <p class="tagline" id="site-intro"></p>
+    <div class="count" id="site-count"></div>
+  </section>
+
+  <section class="grid" id="works" aria-label="作品列表"></section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>拾遗馆 · 私人收藏，仅作记录</span>
+    <span>内容版权归原作者所有</span>
+  </div>
+</footer>
+
+<script src="data/works.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  // 首页大标题跟随站点名
+  document.getElementById("site-name-hero").textContent =
+    (window.SITE && window.SITE.name) || "拾遗馆";
+</script>
+</body>
+</html>
