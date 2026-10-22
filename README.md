@@ -4,9 +4,9 @@
 
 线上地址：**https://xtc.caiths.com**
 
-<video src="https://raw.githubusercontent.com/poboll/xiaotiancai/main/media/ending.mp4" width="100%" autoplay loop muted playsinline controls></video>
+[![《女主》禁止上船，后果自负 · 结尾](media/nvzhu-loop.gif)](https://raw.githubusercontent.com/poboll/xiaotiancai/main/media/nvzhu.mp4)
 
-> 《女主》禁止上船，后果自负 · 结尾。她说完「你就做自己的齐天大圣」，然后把眼睛闭上了。
+> 《女主》禁止上船，后果自负 · 全片 82 秒，`media/nvzhu.mp4`（21MB）。GIF 只是结尾四秒的循环，点它看完整视频。
 
 ---
 
@@ -59,7 +59,9 @@
 │   ├── library.js           作品数据（脚本生成，别手改）
 │   └── scripts.js           两部纪录片的全片文稿（手改这里）
 ├── media/
-│   ├── ending.mp4           《女主》结尾片段（README 和信件页用）
+│   ├── nvzhu.mp4            《女主》禁止上船全片（README 和信件页用）
+│   ├── nvzhu-loop.gif       结尾四秒循环（README 自动播放用）
+│   ├── nvzhu-poster.jpg     视频封面帧
 │   └── ill/                 信件页插图（webp）
 ├── scripts/
 │   └── build_library.py     扫描文件夹 → 生成 library.js + 缩略图
