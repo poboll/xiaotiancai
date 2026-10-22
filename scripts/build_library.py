@@ -24,6 +24,14 @@ SKIP_DIRS = {"assets", "data", "works", "scripts", "thumbs", "_dedupe_backup"}
 THUMB_W = 640
 THUMB_Q = 74
 
+# 置顶作品：画廊里排最前面，封面上带「置顶」标记（像抖音那样）。
+# 数组顺序即置顶排序。换置顶就改这里。
+PINNED_ORDER = [
+    "7561409947121077514",   # 总有一天 · 冈仁波齐（视频）
+    "7585371200881282358",   # 真正的西域 · 喀什（视频）
+    "7458612718006799625",   # 小爬海（图文）
+]
+
 try:
     from PIL import Image
     HAS_PIL = True
@@ -152,6 +160,7 @@ def build():
             "coverW": 0,
             "coverH": 0,
             "video": None,
+            "pin": None,
         }
 
         if kind == "video":
@@ -208,6 +217,10 @@ def build():
                 item["coverW"] = item["images"][0]["w"]
                 item["coverH"] = item["images"][0]["h"]
             item["count"] = len(item["images"])
+
+        # 置顶排序位（0,1,2…），非置顶保持 None
+        if item["id"] in PINNED_ORDER:
+            item["pin"] = PINNED_ORDER.index(item["id"])
 
         works.append(item)
 

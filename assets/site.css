@@ -191,6 +191,11 @@ button{font:inherit;color:inherit;}
   -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
 }
 .badge.live{background:rgba(255,255,255,.9); color:#3a3833;}
+.badge.pin{
+  left:8px; top:8px; bottom:auto;
+  background:#f2b53c; color:#221f1a; font-weight:600;
+  box-shadow:0 1px 5px rgba(30,25,15,.28);
+}
 .tile-cap{padding-top:10px;}
 .tile-title{
   font-size:13.5px; line-height:1.72; color:var(--ink); letter-spacing:.02em;
@@ -300,7 +305,7 @@ button{font:inherit;color:inherit;}
 }
 .w-script p{
   font-size:14px; line-height:2.05; color:var(--ink-2);
-  text-align:justify; margin-bottom:2px;
+  text-align:justify; text-indent:2em; margin-bottom:4px;
 }
 
 .work-nav{
@@ -419,12 +424,22 @@ button{font:inherit;color:inherit;}
 
 /* ---------- 信件页：开头视频 ---------- */
 .letter-video{
-  max-width:640px; margin:30px auto 8px;
+  max-width:640px; margin:30px auto 8px; position:relative;
 }
 .letter-video video{
   width:100%; display:block; background:#0d0c0b;
   border:1px solid var(--line);
 }
+/* 浏览器拦截带声自动播放时的「开启声音」按钮 */
+.unmute{
+  position:absolute; left:50%; bottom:58px; transform:translateX(-50%);
+  background:rgba(24,22,20,.72); color:#fff;
+  border:1px solid rgba(255,255,255,.28); border-radius:2px;
+  font-family:var(--sans); font-size:11px; letter-spacing:.1em;
+  padding:7px 15px; cursor:pointer;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.unmute:hover{background:rgba(24,22,20,.9);}
 .letter-video-cap{
   margin-top:10px; text-align:center;
   font-family:var(--sans); font-size:10px; line-height:1.9;
@@ -442,12 +457,14 @@ button{font:inherit;color:inherit;}
 }
 .ill-grid figure{
   background:#fff; border:1px solid var(--line);
-  padding:8px 8px 6px;
+  padding:8px 8px 6px; cursor:zoom-in;
+  transition:border-color .3s;
 }
+.ill-grid figure:hover{border-color:var(--line-2);}
 .ill-grid figure:last-child:nth-child(odd){
   grid-column:1 / -1;
 }
-.ill-grid img{width:100%; height:auto; display:block;}
+.ill-grid img{width:100%; height:auto; display:block; cursor:zoom-in;}
 .ill-grid figcaption{
   margin-top:6px; text-align:center;
   font-family:var(--sans); font-size:9.5px; color:#9a9a9a; letter-spacing:.1em;

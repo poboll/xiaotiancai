@@ -167,6 +167,9 @@
     } else if (w.images && w.images.some(function (i) { return i.live; })) {
       box.appendChild(el("span", "badge live", "LIVE"));
     }
+    if (w.pin != null) {
+      box.appendChild(el("span", "badge pin", "置顶"));
+    }
     a.appendChild(box);
 
     var cap = el("div", "tile-cap");
@@ -187,6 +190,11 @@
       if (cur === "image" || cur === "video") return w.kind === cur;
       if (cur.charAt(0) === "y") return w.year === cur.slice(1);
       return true;
+    });
+    // 置顶的排最前面（按 build_library.py 里的 PINNED_ORDER），其余保持日期倒序
+    list.sort(function (a, b) {
+      var pa = a.pin == null ? 999 : a.pin, pb = b.pin == null ? 999 : b.pin;
+      return pa - pb;
     });
     var frag = document.createDocumentFragment();
     list.forEach(function (w) { frag.appendChild(tile(w)); });

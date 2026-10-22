@@ -36,7 +36,8 @@
 
   /* ── 头部 ── */
   document.title = w.title + " · 拾遗馆";
-  $("w-kicker").textContent = w.kind === "video" ? "影像" : "写真";
+  $("w-kicker").textContent = (w.pin != null ? "置顶 · " : "") +
+    (w.kind === "video" ? "影像" : "写真");
   $("w-title").textContent = w.title || "未命名";
   $("w-date").textContent = (w.date || "") +
     (w.count ? "　·　共 " + w.count + " 张" : "");
@@ -71,11 +72,16 @@
     if (sc) {
       var box = el("div", "w-script");
       (sc.sections || []).forEach(function (sec) {
-        (sec.lines || []).forEach(function (line) {
-          // 〔〕（）开头的是画面、声音、语种注解——视频里都有，不重复
-          if (/^[〔（]/.test(line)) return;
-          box.appendChild(el("p", null, line));
+        // 〔〕（）开头的是画面、声音、语种注解——视频里都有，不重复
+        var lines = (sec.lines || []).filter(function (line) {
+          return !/^[〔（]/.test(line);
         });
+        if (!lines.length) return;
+        // 同一章的字幕连成一段，读起来才是文稿
+        var text = lines.map(function (l) {
+          return /^[A-Za-z0-9]/.test(l) ? " " + l : l;
+        }).join("");
+        box.appendChild(el("p", null, text));
       });
       $("w-video").appendChild(box);
     }
