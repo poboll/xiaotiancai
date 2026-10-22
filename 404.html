@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 · 拾遗馆</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  /* 404 页自成一体：就算站点样式没加载上，也要能看、能点回去 */
+  .nf{
+    min-height:100vh; box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:56px 24px; text-align:center;
+    background:#faf8f4; color:#1e1d1b;
+    font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  }
+  .nf-code{
+    font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    font-size:12px; letter-spacing:.5em; text-indent:.5em; color:#8b8579;
+  }
+  .nf-title{
+    font-size:clamp(26px,5vw,40px); font-weight:400; line-height:1.5;
+    letter-spacing:.24em; text-indent:.24em; margin:24px 0 0; color:#1e1d1b;
+  }
+  .nf-rule{width:44px; height:1px; background:#d5cec0; margin:30px 0;}
+  .nf-text{font-size:14px; line-height:2.15; color:#3a3833; max-width:30em;}
+  .nf-path{
+    margin-top:20px; font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    font-size:11px; line-height:1.8; color:#8b8579; word-break:break-all;
+  }
+  .nf-path code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    background:#f4f0e8; border:1px solid #e5e0d6; padding:2px 8px; font-size:11px;
+  }
+  .nf-links{
+    margin-top:38px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center;
+    font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif; font-size:12px;
+  }
+  .nf-links a{
+    padding:9px 22px; border:1px solid #d5cec0; background:#fff; color:#3a3833;
+    letter-spacing:.12em; text-decoration:none;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .nf-links a:hover{border-color:#8a6a45; color:#8a6a45;}
+  .nf-links a.primary{background:#1e1d1b; border-color:#1e1d1b; color:#faf8f4;}
+  .nf-links a.primary:hover{background:#8a6a45; border-color:#8a6a45; color:#fff;}
+  .nf-foot{
+    margin-top:46px;
+    font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    font-size:10px; letter-spacing:.18em; color:#8b8579;
+  }
+</style>
+</head>
+<body>
+
+<main class="nf">
+  <div class="nf-code">404</div>
+  <h1 class="nf-title">这一页还没被收进来</h1>
+  <div class="nf-rule"></div>
+  <p class="nf-text">你要找的地址不存在，或者被挪过了。如果是某部作品，多半是链接换了写法——回归档里翻翻，也许就在里面。</p>
+  <p class="nf-path">你刚才打开的是　<code id="nf-path"></code></p>
+  <nav class="nf-links">
+    <a class="primary" href="/index.html">回到首页</a>
+    <a href="/index.html#gallery">翻翻作品</a>
+    <a href="/works/longlong-xiaotiancai/index.html">读那封信</a>
+  </nav>
+  <div class="nf-foot">拾遗馆 · 私人收藏，不作商业用途</div>
+</main>
+
+<script>
+(function(){
+  /* 老式作品文件夹链接的救援：这种路径线上就会落到本页。
+     /works/<文件夹>/ 或 /works/<文件夹>/index.html → work.html?w=<文件夹>
+     （那封信有自己的页面，不抢。pathname 片段已百分号编码，原样拼接即可） */
+  var m = location.pathname.match(/^\/works\/([^/]+)\/(?:index\.html)?$/);
+  if (m && m[1] !== "longlong-xiaotiancai") {
+    location.replace("/work.html?w=" + m[1]);
+    return;
+  }
+  /* 其余情况：把用户打开的地址显示出来，方便排查 */
+  try {
+    document.getElementById("nf-path").textContent =
+      decodeURIComponent(location.pathname) + location.search;
+  } catch (e) {
+    document.getElementById("nf-path").textContent = location.pathname + location.search;
+  }
+})();
+</script>
+</body>
+</html>
