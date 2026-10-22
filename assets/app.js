@@ -212,5 +212,10 @@
     pinned();
     filters();
     paint();
+    if (!window.LIBRARY) {
+      // 数据脚本没加载上：说清楚，别让首页看着像"没有作品"
+      var note = $("gallery-note");
+      if (note) note.textContent = "作品数据没加载上，稍后刷新试试。";
+    }
   });
 })();

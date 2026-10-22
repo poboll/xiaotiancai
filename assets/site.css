@@ -433,14 +433,30 @@ button{font:inherit;color:inherit;}
 }
 /* 浏览器拦截带声自动播放时的「开启声音」按钮 */
 .unmute{
-  position:absolute; left:50%; bottom:58px; transform:translateX(-50%);
-  background:rgba(24,22,20,.72); color:#fff;
-  border:1px solid rgba(255,255,255,.28); border-radius:2px;
-  font-family:var(--sans); font-size:11px; letter-spacing:.1em;
-  padding:7px 15px; cursor:pointer;
-  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  position:absolute; left:50%; bottom:50px; transform:translateX(-50%);
+  display:inline-flex; align-items:center; gap:7px;
+  background:rgba(22,20,17,.55); color:#fff;
+  border:1px solid rgba(255,255,255,.32); border-radius:999px;
+  font-family:var(--sans); font-size:11.5px; letter-spacing:.14em;
+  padding:8px 18px 8px 15px; cursor:pointer;
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  box-shadow:0 6px 22px -6px rgba(0,0,0,.45);
+  animation:unmute-in .45s ease backwards, unmute-glow 2.8s ease-in-out 1s infinite;
+  transition:background .2s, border-color .2s;
 }
-.unmute:hover{background:rgba(24,22,20,.9);}
+.unmute:hover{background:rgba(22,20,17,.8); border-color:rgba(255,255,255,.6);}
+.unmute svg{width:14px; height:14px; flex:none;}
+@keyframes unmute-in{
+  from{opacity:0; transform:translateX(-50%) translateY(10px);}
+  to{opacity:1; transform:translateX(-50%) translateY(0);}
+}
+@keyframes unmute-glow{
+  0%,100%{box-shadow:0 6px 22px -6px rgba(0,0,0,.45);}
+  50%{box-shadow:0 6px 26px -4px rgba(0,0,0,.45), 0 0 0 4px rgba(255,255,255,.08);}
+}
+@media (prefers-reduced-motion:reduce){
+  .unmute{animation:none;}
+}
 .letter-video-cap{
   margin-top:10px; text-align:center;
   font-family:var(--sans); font-size:10px; line-height:1.9;

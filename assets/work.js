@@ -2,7 +2,15 @@
    作品详情页：work.html?w=<作品文件夹名>
    =========================================================== */
 (function () {
-  var L = window.LIBRARY || { works: [] };
+  if (!window.LIBRARY) {
+    // 数据脚本没加载上：不是"没有这部作品"，是列表没到
+    $("w-title").textContent = "数据没加载上";
+    $("w-kicker").textContent = "";
+    $("w-src").innerHTML = '作品列表脚本没加载上，<a href="index.html">回到全部作品</a>，或稍后刷新。';
+    return;
+  }
+
+  var L = window.LIBRARY;
   var works = L.works || [];
 
   function $(id) { return document.getElementById(id); }
