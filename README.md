@@ -4,6 +4,10 @@
 
 线上地址：**https://xtc.caiths.com**
 
+<video src="https://raw.githubusercontent.com/poboll/xiaotiancai/main/media/ending.mp4" width="100%" autoplay loop muted playsinline controls></video>
+
+> 《女主》禁止上船，后果自负 · 结尾。她说完「你就做自己的齐天大圣」，然后把眼睛闭上了。
+
 ---
 
 ## 我为什么弄这个
@@ -28,11 +32,13 @@
 |---|---|
 | `index.html` | 首页。两行开场、置顶两条、60 部作品的瀑布流，可按图文/视频/年份筛 |
 | `story.html` | 「我为什么收这些」，上面那段话的完整版 |
-| `work.html?w=<id>` | 单部作品的详情页，图片竖排、可点开大图、上下篇切换 |
-| `works/longlong-xiaotiancai/` | 《致王卓凡》那封信的阅读页，附故事梗概、观后感、精选评论 |
+| `work.html?w=<id>` | 单部作品的详情页，图片竖排、可点开大图、上下篇切换；视频作品下方直接展示全片文稿 |
+| `works/longlong-xiaotiancai/` | 《致王卓凡》那封信的阅读页，附故事梗概、观后感、精选评论、插图 |
 | `works/longlong-xiaotiancai/assets/` | 信的 PDF 打印版和 DOCX 可编辑版 |
 
 作品数据不是手写的。`scripts/build_library.py` 会扫描仓库里每个带 `info.json` 的文件夹，读标题、日期、点赞、图片列表，生成 `data/library.js` 和缩略图。所以**丢一个新文件夹进来，跑一下脚本，首页就自动多一张卡片**。
+
+两部纪录片（冈仁波齐、喀什）的全片文稿放在 `data/scripts.js` 里，由内嵌字幕逐帧识别 + 人工听校交叉校验整理，会显示在视频下方。`纪录片学习/` 里还有文稿的 Markdown 版和一篇创作方法分析。
 
 ---
 
@@ -47,16 +53,21 @@
 ├── assets/
 │   ├── site.css             全站样式
 │   ├── app.js               首页：置顶 + 筛选 + 瀑布流
-│   └── work.js              详情页：图片、灯箱、上下篇
+│   └── work.js              详情页：图片、灯箱、上下篇、视频文稿
 ├── data/
 │   ├── works.js             站名、开场白、置顶两条（手改这里）
-│   └── library.js           作品数据（脚本生成，别手改）
+│   ├── library.js           作品数据（脚本生成，别手改）
+│   └── scripts.js           两部纪录片的全片文稿（手改这里）
+├── media/
+│   ├── ending.mp4           《女主》结尾片段（README 和信件页用）
+│   └── ill/                 信件页插图（webp）
 ├── scripts/
 │   └── build_library.py     扫描文件夹 → 生成 library.js + 缩略图
 ├── thumbs/                  缩略图（640px webp）和视频封面
 ├── works/
 │   ├── _template/           新作品的空白模板
 │   └── longlong-xiaotiancai/ 那封信
+├── 纪录片学习/               两部纪录片的文稿 + 创作方法分析
 ├── 各作品文件夹/            每个文件夹 = 一条抖音作品（info.json + 图/视频）
 └── .github/workflows/pages.yml
 ```
