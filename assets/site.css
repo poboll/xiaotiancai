@@ -294,39 +294,13 @@ button{font:inherit;color:inherit;}
   border:1px solid var(--line);
 }
 
-/* ---------- 视频文稿 ---------- */
+/* ---------- 视频文稿：视频下面空白处的一段纯文字 ---------- */
 .w-script{
-  max-width:760px; margin:36px auto 0; padding:34px 34px 30px;
-  background:var(--card); border:1px solid var(--line);
+  max-width:760px; margin:40px auto 0;
 }
-.w-script-head{
-  display:flex; align-items:baseline; justify-content:space-between;
-  gap:12px; flex-wrap:wrap; margin-bottom:20px;
-}
-.w-script-title{
-  font-size:15px; letter-spacing:.18em; color:var(--ink); font-weight:400;
-}
-.w-script-meta{
-  font-family:var(--sans); font-size:10px; color:var(--muted); letter-spacing:.06em;
-}
-.w-script-sec{
-  font-family:var(--sans); font-size:10.5px; letter-spacing:.16em;
-  color:var(--accent); margin:22px 0 8px;
-}
-.w-script-sec:first-of-type{margin-top:0;}
-.w-script-sec .t{color:#b3ab9d; margin-left:8px; letter-spacing:.04em;}
 .w-script p{
   font-size:14px; line-height:2.05; color:var(--ink-2);
   text-align:justify; margin-bottom:2px;
-}
-.w-script p.em{color:var(--ink);}
-.w-script p.note{
-  font-family:var(--sans); font-size:10.5px; color:var(--muted);
-  line-height:1.9; margin:2px 0 6px;
-}
-.w-script-foot{
-  margin-top:22px; padding-top:12px; border-top:1px solid var(--line);
-  font-family:var(--sans); font-size:9.5px; color:#b3ab9d; letter-spacing:.05em;
 }
 
 .work-nav{

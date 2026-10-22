@@ -164,7 +164,15 @@ def build():
                 poster = os.path.join(tdir, "poster.jpg")
                 if make_poster(os.path.join(d, vname), poster):
                     item["cover"] = f"thumbs/{hh}/poster.jpg"
-                    item["coverW"], item["coverH"] = THUMB_W, round(THUMB_W * 16 / 9)
+                    # 封面尺寸按图片实际宽高算——视频有横有竖，不能硬编码
+                    cw, ch = THUMB_W, round(THUMB_W * 9 / 16)
+                    if HAS_PIL:
+                        try:
+                            with Image.open(poster) as im:
+                                cw, ch = im.size
+                        except Exception:
+                            pass
+                    item["coverW"], item["coverH"] = cw, ch
                 # 时长
                 if HAS_FFMPEG:
                     r = subprocess.run(

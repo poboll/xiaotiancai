@@ -66,29 +66,17 @@
     $("w-video").appendChild(v);
     $("w-video").hidden = false;
 
-    /* ── 全片文稿 ── */
+    /* ── 全片文稿：就放在视频下面的空白处，纯文字，不加任何修饰 ── */
     var sc = (window.SCRIPTS || {})[w.id];
     if (sc) {
       var box = el("div", "w-script");
-      var head = el("div", "w-script-head");
-      head.appendChild(el("div", "w-script-title", sc.title));
-      head.appendChild(el("div", "w-script-meta", sc.meta || ""));
-      box.appendChild(head);
       (sc.sections || []).forEach(function (sec) {
-        var h = el("div", "w-script-sec");
-        h.appendChild(document.createTextNode(sec.name));
-        if (sec.time) {
-          var t = el("span", "t", sec.time);
-          h.appendChild(t);
-        }
-        box.appendChild(h);
         (sec.lines || []).forEach(function (line) {
-          var p = el("p", /^〔/.test(line) ? "note" : "");
-          p.textContent = line;
-          box.appendChild(p);
+          // 〔〕（）开头的是画面、声音、语种注解——视频里都有，不重复
+          if (/^[〔（]/.test(line)) return;
+          box.appendChild(el("p", null, line));
         });
       });
-      if (sc.foot) box.appendChild(el("div", "w-script-foot", sc.foot));
       $("w-video").appendChild(box);
     }
   } else {
