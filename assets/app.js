@@ -168,7 +168,7 @@
       box.appendChild(el("span", "badge live", "LIVE"));
     }
     if (w.pin != null) {
-      box.appendChild(el("span", "badge pin", "置顶"));
+      box.appendChild(el("span", "badge pinmark", "置顶"));
     }
     a.appendChild(box);
 
