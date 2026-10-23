@@ -191,6 +191,10 @@ button{font:inherit;color:inherit;}
   -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
 }
 .badge.live{background:rgba(255,255,255,.9); color:#3a3833;}
+/* 渠道徽章：小红书=朱红，双平台=靛蓝（避开置顶的黄）
+   放右下角——视频的时长徽章和 LIVE 都在左下角，叠一起就糊了 */
+.badge.chan-xhs{left:auto; right:8px; background:rgba(200,58,58,.82); color:#fff;}
+.badge.chan-both{left:auto; right:8px; background:rgba(58,78,152,.82); color:#fff;}
 /* 置顶标识：封面左上角（类名避开首页置顶卡的 .pin） */
 .badge.pinmark{
   left:8px; top:8px; bottom:auto;
@@ -304,10 +308,25 @@ button{font:inherit;color:inherit;}
 .w-script{
   max-width:760px; margin:40px auto 0;
 }
+.w-sc-sec{
+  display:flex; align-items:baseline; gap:12px;
+  margin:26px 0 10px; padding-bottom:7px;
+  border-bottom:1px solid var(--line);
+  font-family:var(--sans);
+}
+.w-sc-sec:first-child{margin-top:0;}
+.w-sc-name{
+  font-size:12px; letter-spacing:.16em; color:var(--accent);
+}
+.w-sc-time{
+  font-size:10px; letter-spacing:.1em; color:#b3ab9d;
+  font-variant-numeric:tabular-nums; margin-left:auto;
+}
 .w-script p{
   font-size:14px; line-height:2.05; color:var(--ink-2);
   text-align:justify; text-indent:2em; margin-bottom:4px;
 }
+.w-script p:last-child{margin-bottom:0;}
 
 .work-nav{
   max-width:760px; margin:64px auto 0; padding:22px 28px 0;
@@ -495,10 +514,13 @@ button{font:inherit;color:inherit;}
 .toolbar .links{display:flex; gap:18px; flex-wrap:wrap;}
 .toolbar a{border-bottom:1px solid transparent; padding-bottom:1px;}
 .toolbar a:hover{color:var(--ink); border-bottom-color:var(--line-2);}
+.tb-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
 .btn{
-  font-family:var(--sans); font-size:12px; color:var(--ink-2);
-  border:1px solid var(--line-2); background:#fff; padding:7px 16px;
-  cursor:pointer; border-radius:2px; transition:background .18s, border-color .18s;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--sans); font-size:12px; line-height:1; color:var(--ink-2);
+  border:1px solid var(--line-2); background:#fff; padding:9px 16px;
+  cursor:pointer; border-radius:2px; white-space:nowrap;
+  transition:background .18s, border-color .18s;
 }
 .btn:hover{background:var(--paper); border-color:#c3bbaa;}
 
