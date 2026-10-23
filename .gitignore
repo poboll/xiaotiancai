@@ -7,8 +7,9 @@ _site/
 _dedupe_backup/
 
 # 4K 原片：单个 160MB+，超过 GitHub 单文件 100MB 上限，只留本地
-*冈仁波齐*/video.mp4
-*半夜才天黑*/video.mp4
+# （进仓库的是压过的 video_web.mp4）
+抖音源/*冈仁波齐*/video.mp4
+抖音源/*半夜才天黑*/video.mp4
 
 # 冗余的 1080p 副本（已压成 video_web.mp4）
 video_1080p.mp4
@@ -16,3 +17,15 @@ video_1080p.mp4
 # 编辑器的本地缓存
 *.swp
 纪录片学习/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 小红书 PNG 原图：已转成同分辨率 WebP 进仓库，PNG 只留本地
+# （单张 4-7MB，360 张 1.5GB；WebP q92 全分辨率只有 ~16%，视觉无损）
+小红书源/*/原图/
+抖音源/*/原图/
+
+# 小红书下载工具源码与二进制（仅本地使用，用完即删）
+tools/
