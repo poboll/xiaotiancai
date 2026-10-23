@@ -1,0 +1,86 @@
+{
+ "嗨！！": {
+  "douyin_dir": "幸福的碎片！",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 2,
+  "douyin_count": 9
+ },
+ "大树": {
+  "douyin_dir": "大树",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 2,
+  "douyin_count": 13
+ },
+ "好伟大的包": {
+  "douyin_dir": "好伟大的包",
+  "distance": 0,
+  "overlap": 0.67,
+  "xhs_count": 6,
+  "douyin_count": 6
+ },
+ "小爬海。": {
+  "douyin_dir": "小爬海",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 8,
+  "douyin_count": 8
+ },
+ "真可爱我": {
+  "douyin_dir": "好的好的好的！",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 5,
+  "douyin_count": 23
+ },
+ "麦～": {
+  "douyin_dir": "未命名作品（2024-01-18）",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 2,
+  "douyin_count": 18
+ },
+ "💫": {
+  "douyin_dir": "未命名作品（2024-04-23）",
+  "distance": 0,
+  "overlap": 1.0,
+  "xhs_count": 4,
+  "douyin_count": 7
+ },
+ "姐开学了。": {
+  "douyin_dir": "老娘居然今天开学。",
+  "distance": 1,
+  "overlap": 0.75,
+  "xhs_count": 8,
+  "douyin_count": 26
+ },
+ "🩴👖": {
+  "douyin_dir": "祝我成功",
+  "distance": 1,
+  "overlap": 1.0,
+  "xhs_count": 3,
+  "douyin_count": 22
+ },
+ "姐去上课": {
+  "douyin_dir": "我去吃饭了。",
+  "distance": 2,
+  "overlap": 1.0,
+  "xhs_count": 1,
+  "douyin_count": 1
+ },
+ "往事流转在你眼眸。": {
+  "douyin_dir": "往事流转在你眼眸。",
+  "distance": 2,
+  "overlap": 1.0,
+  "xhs_count": 8,
+  "douyin_count": 9
+ },
+ "这个角度真的…": {
+  "douyin_dir": "未命名作品（2024-11-05）",
+  "distance": 2,
+  "overlap": 1.0,
+  "xhs_count": 7,
+  "douyin_count": 16
+ }
+}
