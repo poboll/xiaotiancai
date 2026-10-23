@@ -110,11 +110,17 @@
     var box = $("filters");
     var years = {};
     works.forEach(function (w) { if (w.year) years[w.year] = (years[w.year] || 0) + 1; });
+    var chanN = function (c) {
+      return works.filter(function (w) { return (w.channel || "抖音") === c; }).length;
+    };
 
     var defs = [
       { k: "all", label: "全部", n: works.length },
       { k: "image", label: "图文", n: works.filter(function (w) { return w.kind === "image"; }).length },
-      { k: "video", label: "视频", n: works.filter(function (w) { return w.kind === "video"; }).length }
+      { k: "video", label: "视频", n: works.filter(function (w) { return w.kind === "video"; }).length },
+      { k: "ch抖音", label: "抖音", n: chanN("抖音"), sep: true },
+      { k: "ch小红书", label: "小红书", n: chanN("小红书") },
+      { k: "ch双平台", label: "双平台", n: chanN("双平台") }
     ];
     Object.keys(years).sort().reverse().forEach(function (y) {
       defs.push({ k: "y" + y, label: y, n: years[y], sep: true });
@@ -170,12 +176,19 @@
     if (w.pin != null) {
       box.appendChild(el("span", "badge pinmark", "置顶"));
     }
+    // 渠道徽章：抖音是默认来源不标；小红书/双平台标出来，一眼能分出
+    if (w.channel === "小红书") {
+      box.appendChild(el("span", "badge chan-xhs", "小红书"));
+    } else if (w.channel === "双平台") {
+      box.appendChild(el("span", "badge chan-both", "双平台"));
+    }
     a.appendChild(box);
 
     var cap = el("div", "tile-cap");
     cap.appendChild(el("div", "tile-title", w.title || "未命名"));
     var meta = [w.date || "", w.kind === "video" ? "视频" : (w.count || 0) + " 张"];
     if (w.stats && w.stats.digg) meta.push("♥ " + num(w.stats.digg));
+    if (w.channel && w.channel !== "抖音") meta.push(w.channel);
     cap.appendChild(el("div", "tile-meta", meta.filter(Boolean).join("　·　")));
     a.appendChild(cap);
 
@@ -188,6 +201,7 @@
     var list = works.filter(function (w) {
       if (cur === "all") return true;
       if (cur === "image" || cur === "video") return w.kind === cur;
+      if (cur.indexOf("ch") === 0) return (w.channel || "抖音") === cur.slice(2);
       if (cur.charAt(0) === "y") return w.year === cur.slice(1);
       return true;
     });
