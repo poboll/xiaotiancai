@@ -1,0 +1,5 @@
+# 与 抖音源/ 里的同一部作品重复（见 scripts/dupe_map.json）。
+# 媒体只在本地留档，不进仓库；保留 info.json 记录元数据和小红书原文链接。
+*
+!.gitignore
+!info.json

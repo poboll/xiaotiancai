@@ -1,0 +1,32 @@
+{
+ "渠道": "小红书",
+ "note_id": "669d27a600000000050078bc",
+ "标题": "我",
+ "发布时间": "2024-07-21",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 21,
+  "collect_count": 1,
+  "comment_count": 1,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/669d27a600000000050078bc",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1080,
+    "height": 1620
+   }
+  ]
+ }
+}

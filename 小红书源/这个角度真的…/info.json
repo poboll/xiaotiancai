@@ -1,0 +1,62 @@
+{
+ "渠道": "小红书",
+ "note_id": "677287de000000000800dc9c",
+ "标题": "这个角度真的…",
+ "发布时间": "2024-12-30",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 63,
+  "collect_count": 10,
+  "comment_count": 7,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/677287de000000000800dc9c",
+ "标签": [],
+ "正文": "好好看啊啊啊啊啊啊啊啊！爱死前置了",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 2316,
+    "height": 3088
+   },
+   {
+    "file": "2.webp",
+    "width": 2215,
+    "height": 2954
+   },
+   {
+    "file": "3.webp",
+    "width": 3023,
+    "height": 4031
+   },
+   {
+    "file": "4.webp",
+    "width": 1920,
+    "height": 2560
+   },
+   {
+    "file": "5.webp",
+    "width": 2007,
+    "height": 2676
+   },
+   {
+    "file": "6.webp",
+    "width": 2316,
+    "height": 3088
+   },
+   {
+    "file": "7.webp",
+    "width": 2316,
+    "height": 3088
+   }
+  ]
+ }
+}

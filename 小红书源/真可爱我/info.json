@@ -1,0 +1,52 @@
+{
+ "渠道": "小红书",
+ "note_id": "65b77ad90000000001032e82",
+ "标题": "真可爱我",
+ "发布时间": "2024-01-29",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 789,
+  "collect_count": 52,
+  "comment_count": 23,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/65b77ad90000000001032e82",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1920,
+    "height": 2560
+   },
+   {
+    "file": "2.webp",
+    "width": 1454,
+    "height": 1939
+   },
+   {
+    "file": "3.webp",
+    "width": 1920,
+    "height": 2560
+   },
+   {
+    "file": "4.webp",
+    "width": 1920,
+    "height": 2560
+   },
+   {
+    "file": "5.webp",
+    "width": 1920,
+    "height": 2560
+   }
+  ]
+ }
+}

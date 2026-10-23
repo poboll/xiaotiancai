@@ -1,0 +1,79 @@
+{
+ "渠道": "小红书",
+ "note_id": "68c14dca000000001d01f1e0",
+ "标题": "那年夏天，好像特别长。",
+ "发布时间": "2025-09-10",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 1039,
+  "collect_count": 57,
+  "comment_count": 9,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/68c14dca000000001d01f1e0",
+ "标签": [
+  "夏天",
+  "绿色",
+  "我拍到了夏天的味道",
+  "夏天夏天悄悄过去",
+  "果子熟了",
+  "果子熟了无糖茶"
+ ],
+ "正文": "风开始变得温柔又疏离 树叶边缘泛起微黄 我开始留恋夏天 夏天的翠绿 夏天的蝉鸣 我站在树下 抿一口果子熟了无糖茶 栀子花的香味消散在空气中 静静地感受夏的流逝",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "2.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "3.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "4.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "5.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "6.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "7.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "8.webp",
+    "width": 2560,
+    "height": 1922
+   },
+   {
+    "file": "9.webp",
+    "width": 2560,
+    "height": 1922
+   }
+  ]
+ }
+}

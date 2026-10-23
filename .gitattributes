@@ -1,0 +1,4 @@
+# 视频走 Git LFS：二进制、git 压缩不了，且原片可能超 GitHub 单文件 100MB 上限
+# （图片不走 LFS——见 README「体积与清晰度」一节）
+抖音源/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+小红书源/**/*.mp4 filter=lfs diff=lfs merge=lfs -text

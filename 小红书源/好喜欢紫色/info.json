@@ -1,0 +1,37 @@
+{
+ "渠道": "小红书",
+ "note_id": "63465d5b000000001d0173f3",
+ "标题": "好喜欢紫色",
+ "发布时间": "2022-10-12",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 9,
+  "collect_count": 1,
+  "comment_count": 3,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/63465d5b000000001d0173f3",
+ "标签": [],
+ "正文": "@噗噗📷",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1280,
+    "height": 1707
+   },
+   {
+    "file": "2.webp",
+    "width": 1280,
+    "height": 1706
+   }
+  ]
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "渠道": "小红书",
+ "note_id": "66f682e2000000002a034650",
+ "标题": "新皮肤",
+ "发布时间": "2024-09-27",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 39,
+  "collect_count": 4,
+  "comment_count": 0,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/66f682e2000000002a034650",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 2316,
+    "height": 3088
+   },
+   {
+    "file": "2.webp",
+    "width": 2316,
+    "height": 3088
+   },
+   {
+    "file": "3.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "4.webp",
+    "width": 2316,
+    "height": 3088
+   }
+  ]
+ }
+}

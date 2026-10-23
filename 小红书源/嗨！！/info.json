@@ -1,0 +1,44 @@
+{
+ "渠道": "小红书",
+ "note_id": "6767cce8000000000800c9ee",
+ "标题": "嗨！！",
+ "发布时间": "2024-12-22",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 190,
+  "collect_count": 24,
+  "comment_count": 9,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/6767cce8000000000800c9ee",
+ "标签": [
+  "今天",
+  "拍出电影感",
+  "人像摄影",
+  "只是记录一下生活",
+  "有一点点可爱",
+  "记录美好生活"
+ ],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1706,
+    "height": 2560
+   },
+   {
+    "file": "2.webp",
+    "width": 1706,
+    "height": 2560
+   }
+  ]
+ }
+}

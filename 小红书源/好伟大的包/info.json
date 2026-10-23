@@ -1,0 +1,57 @@
+{
+ "渠道": "小红书",
+ "note_id": "66ccbd22000000001f015b62",
+ "标题": "好伟大的包",
+ "发布时间": "2024-08-27",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 21,
+  "collect_count": 2,
+  "comment_count": 1,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/66ccbd22000000001f015b62",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1920,
+    "height": 2560
+   },
+   {
+    "file": "2.webp",
+    "width": 2316,
+    "height": 3088
+   },
+   {
+    "file": "3.webp",
+    "width": 3024,
+    "height": 4032
+   },
+   {
+    "file": "4.webp",
+    "width": 768,
+    "height": 1024
+   },
+   {
+    "file": "5.webp",
+    "width": 3024,
+    "height": 4032
+   },
+   {
+    "file": "6.webp",
+    "width": 2316,
+    "height": 3088
+   }
+  ]
+ }
+}

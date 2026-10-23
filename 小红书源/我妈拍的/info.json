@@ -1,0 +1,47 @@
+{
+ "渠道": "小红书",
+ "note_id": "63a6d4d00000000022034ca1",
+ "标题": "我妈拍的",
+ "发布时间": "2022-12-24",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 481,
+  "collect_count": 105,
+  "comment_count": 39,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/63a6d4d00000000022034ca1",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "2.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "3.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "4.webp",
+    "width": 1440,
+    "height": 1920
+   }
+  ]
+ }
+}

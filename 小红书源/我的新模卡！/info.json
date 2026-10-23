@@ -1,0 +1,36 @@
+{
+ "渠道": "小红书",
+ "note_id": "66daf1260000000027003345",
+ "标题": "我的新模卡！",
+ "发布时间": "2024-09-06",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 33,
+  "collect_count": 3,
+  "comment_count": 2,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/66daf1260000000027003345",
+ "标签": [
+  "昆明模特",
+  "昆明拍照",
+  "昆明商拍"
+ ],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1920,
+    "height": 1280
+   }
+  ]
+ }
+}

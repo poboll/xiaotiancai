@@ -1,0 +1,52 @@
+{
+ "渠道": "小红书",
+ "note_id": "63f47a1300000000130011da",
+ "标题": "又是素颜的一天！",
+ "发布时间": "2023-02-21",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 36,
+  "collect_count": 1,
+  "comment_count": 10,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/63f47a1300000000130011da",
+ "标签": [
+  "素颜",
+  "好皮肤",
+  "护肤",
+  "美女"
+ ],
+ "正文": "自从好好护肤以后都不怎么化妆了，出门只涂下防晒和唇膏，素颜真的很舒服，感觉整张脸都透气了",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "2.webp",
+    "width": 1707,
+    "height": 1280
+   },
+   {
+    "file": "3.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "4.webp",
+    "width": 1440,
+    "height": 1920
+   }
+  ]
+ }
+}

@@ -1,0 +1,37 @@
+{
+ "渠道": "小红书",
+ "note_id": "645fe6ae000000001300d600",
+ "标题": "！",
+ "发布时间": "2023-05-14",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 29,
+  "collect_count": 0,
+  "comment_count": 6,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/645fe6ae000000001300d600",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1920,
+    "height": 1440
+   },
+   {
+    "file": "2.webp",
+    "width": 1440,
+    "height": 1920
+   }
+  ]
+ }
+}

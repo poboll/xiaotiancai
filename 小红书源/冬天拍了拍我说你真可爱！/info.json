@@ -1,0 +1,57 @@
+{
+ "渠道": "小红书",
+ "note_id": "63b67560000000001c007e06",
+ "标题": "冬天拍了拍我说你真可爱！",
+ "发布时间": "2023-01-05",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 19,
+  "collect_count": 6,
+  "comment_count": 5,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/63b67560000000001c007e06",
+ "标签": [],
+ "正文": "",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "2.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "3.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "4.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "5.webp",
+    "width": 1440,
+    "height": 1920
+   },
+   {
+    "file": "6.webp",
+    "width": 1440,
+    "height": 1920
+   }
+  ]
+ }
+}

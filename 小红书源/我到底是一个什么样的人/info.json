@@ -1,0 +1,74 @@
+{
+ "渠道": "小红书",
+ "note_id": "62fb31d20000000014019f9b",
+ "标题": "我到底是一个什么样的人.",
+ "发布时间": "2022-08-16",
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "signature": "166 45 / 自由模特"
+ },
+ "统计": {
+  "digg_count": 19,
+  "collect_count": 4,
+  "comment_count": 5,
+  "recommend_count": 0,
+  "share_count": 0
+ },
+ "类型": "图文",
+ "作品链接": "https://www.xiaohongshu.com/explore/62fb31d20000000014019f9b",
+ "标签": [
+  "情绪片",
+  "昆明拍照",
+  "昆明写真",
+  "昆明约拍",
+  "少女写真",
+  "来拍照了"
+ ],
+ "正文": "出镜：本人 妆造/摄影/后期：昆明一眼摄影 @一眼摄影工作室",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "1.webp",
+    "width": 1280,
+    "height": 1705
+   },
+   {
+    "file": "2.webp",
+    "width": 1280,
+    "height": 1705
+   },
+   {
+    "file": "3.webp",
+    "width": 1280,
+    "height": 1706
+   },
+   {
+    "file": "4.webp",
+    "width": 1280,
+    "height": 1706
+   },
+   {
+    "file": "5.webp",
+    "width": 1280,
+    "height": 1706
+   },
+   {
+    "file": "6.webp",
+    "width": 1280,
+    "height": 1706
+   },
+   {
+    "file": "7.webp",
+    "width": 1280,
+    "height": 1706
+   },
+   {
+    "file": "8.webp",
+    "width": 1280,
+    "height": 1706
+   }
+  ]
+ }
+}
