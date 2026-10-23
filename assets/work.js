@@ -48,7 +48,8 @@
     (w.kind === "video" ? "影像" : "写真");
   $("w-title").textContent = w.title || "未命名";
   $("w-date").textContent = (w.date || "") +
-    (w.count ? "　·　共 " + w.count + " 张" : "");
+    (w.count ? "　·　共 " + w.count + " 张" : "") +
+    (w.channel ? "　·　" + w.channel : "");
 
   var tags = $("w-tags");
   (w.tags || []).forEach(function (t) { tags.appendChild(el("span", "tag", "#" + t)); });
@@ -85,11 +86,30 @@
           return !/^[〔（]/.test(line);
         });
         if (!lines.length) return;
-        // 同一章的字幕连成一段，读起来才是文稿
-        var text = lines.map(function (l) {
-          return /^[A-Za-z0-9]/.test(l) ? " " + l : l;
-        }).join("");
-        box.appendChild(el("p", null, text));
+
+        // 章标题 + 时间码
+        var head = el("div", "w-sc-sec");
+        head.appendChild(el("span", "w-sc-name", sec.name || ""));
+        if (sec.time) head.appendChild(el("span", "w-sc-time", sec.time));
+        box.appendChild(head);
+
+        // 按句号/问号/叹号/省略号断段。字幕是一行一句断开的，
+        // 不合并会把一句话拆得七零八落，全合并又会糊成一大团——
+        // 遇到句末标点就收一段，剩下的在章末兜底吐完。
+        var para = [];
+        var flush = function () {
+          if (!para.length) return;
+          var text = para.map(function (l) {
+            return /^[A-Za-z0-9]/.test(l) ? " " + l : l;
+          }).join("");
+          box.appendChild(el("p", null, text));
+          para = [];
+        };
+        lines.forEach(function (l) {
+          para.push(l);
+          if (/[。？！…?!]$/.test(l.trim())) flush();
+        });
+        flush();
       });
       $("w-video").appendChild(box);
     }
@@ -155,17 +175,27 @@
   }
   if (!prev && !next) nav.style.display = "none";
 
-  /* ── 出处 ── */
+  /* ── 出处：按渠道给原文链接，双平台两个都给 ── */
   var src = $("w-src");
-  if (w.link) {
-    var l = el("a", null, "在抖音看原片 ↗");
-    l.href = w.link;
+  var chan = w.channel || "抖音";
+  var links = [];
+  if (chan === "双平台") {
+    links.push([w.link, "在抖音看原片 ↗"], [w.xhsLink, "在小红书看原笔记 ↗"]);
+  } else if (chan === "小红书") {
+    links.push([w.link, "在小红书看原笔记 ↗"]);
+  } else if (w.link) {
+    links.push([w.link, "在抖音看原片 ↗"]);
+  }
+  links.forEach(function (p) {
+    if (!p[0]) return;
+    var l = el("a", null, p[1]);
+    l.href = p[0];
     l.target = "_blank";
     l.rel = "noopener";
+    l.style.marginRight = "18px";
     src.appendChild(l);
-  } else {
-    src.textContent = "原作：小天才.（余乐彤）";
-  }
+  });
+  if (!src.children.length) src.textContent = "原作：小天才.（余乐彤）";
 
   /* ── 灯箱 ── */
   var lb = $("lightbox"), lbImg = $("lb-img"), lbCap = $("lb-cap");
