@@ -189,6 +189,14 @@
   function funnelState() {
     var dot = $("funnel-dot");
     if (dot) dot.hidden = platform === "all" && sortBy === "new";
+    var st = $("funnel-state");
+    if (st) {
+      var bits = [];
+      if (platform !== "all") bits.push(platform);
+      if (sortBy === "old") bits.push("时间正序");
+      else if (sortBy === "hot") bits.push("按热度");
+      st.textContent = bits.join(" · ");
+    }
   }
 
   /* ── 画廊 ── */
@@ -223,19 +231,12 @@
     if (w.pin != null) {
       box.appendChild(el("span", "badge pinmark", "置顶"));
     }
-    // 渠道徽章：抖音是默认来源不标；小红书/双平台标出来，一眼能分出
-    if (w.channel === "小红书") {
-      box.appendChild(el("span", "badge chan-xhs", "小红书"));
-    } else if (w.channel === "双平台") {
-      box.appendChild(el("span", "badge chan-both", "双平台"));
-    }
     a.appendChild(box);
 
     var cap = el("div", "tile-cap");
     cap.appendChild(el("div", "tile-title", w.title || "未命名"));
     var meta = [w.date || "", w.kind === "video" ? "视频" : (w.count || 0) + " 张"];
     if (w.stats && w.stats.digg) meta.push("♥ " + num(w.stats.digg));
-    if (w.channel && w.channel !== "抖音") meta.push(w.channel);
     cap.appendChild(el("div", "tile-meta", meta.filter(Boolean).join("　·　")));
     a.appendChild(cap);
 
