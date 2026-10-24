@@ -56,7 +56,41 @@
 
     <div class="pinned" id="pinned"></div>
 
-    <div class="filters" id="filters" role="tablist"></div>
+    <div class="filterbar">
+      <div class="filters" id="filters" role="tablist"></div>
+      <div class="funnel">
+        <button class="funnel-btn" id="funnel-btn" type="button" aria-expanded="false" aria-controls="funnel-panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/>
+          </svg>
+          <span>筛选</span>
+          <em class="funnel-dot" id="funnel-dot" hidden></em>
+        </button>
+        <div class="funnel-panel" id="funnel-panel" hidden>
+          <div class="fp-row">
+            <div class="fp-label">平台</div>
+            <div class="fp-opts" id="fp-platform">
+              <button type="button" data-v="all" class="on">全部</button>
+              <button type="button" data-v="抖音">抖音</button>
+              <button type="button" data-v="小红书">小红书</button>
+              <button type="button" data-v="双平台">双平台</button>
+            </div>
+          </div>
+          <div class="fp-row">
+            <div class="fp-label">排序</div>
+            <div class="fp-opts" id="fp-sort">
+              <button type="button" data-v="new" class="on">时间倒序</button>
+              <button type="button" data-v="old">时间正序</button>
+              <button type="button" data-v="hot">按热度</button>
+            </div>
+          </div>
+          <div class="fp-foot">
+            <span id="fp-count"></span>
+            <button type="button" id="fp-reset">重置</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="masonry" id="masonry"></div>
 

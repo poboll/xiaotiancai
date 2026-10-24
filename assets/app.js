@@ -105,22 +105,19 @@
   }
 
   /* ── 筛选 ── */
-  var cur = "all";
+  var cur = "all";                 // 快选：all / image / video / y2026 …
+  var platform = "all";            // 漏斗·平台：all / 抖音 / 小红书 / 双平台
+  var sortBy = "new";              // 漏斗·排序：new 倒序 / old 正序 / hot 热度
+
   function filters() {
     var box = $("filters");
     var years = {};
     works.forEach(function (w) { if (w.year) years[w.year] = (years[w.year] || 0) + 1; });
-    var chanN = function (c) {
-      return works.filter(function (w) { return (w.channel || "抖音") === c; }).length;
-    };
 
     var defs = [
       { k: "all", label: "全部", n: works.length },
       { k: "image", label: "图文", n: works.filter(function (w) { return w.kind === "image"; }).length },
-      { k: "video", label: "视频", n: works.filter(function (w) { return w.kind === "video"; }).length },
-      { k: "ch抖音", label: "抖音", n: chanN("抖音"), sep: true },
-      { k: "ch小红书", label: "小红书", n: chanN("小红书") },
-      { k: "ch双平台", label: "双平台", n: chanN("双平台") }
+      { k: "video", label: "视频", n: works.filter(function (w) { return w.kind === "video"; }).length }
     ];
     Object.keys(years).sort().reverse().forEach(function (y) {
       defs.push({ k: "y" + y, label: y, n: years[y], sep: true });
@@ -142,6 +139,56 @@
       });
       box.appendChild(b);
     });
+  }
+
+  /* ── 漏斗：平台 + 排序 ── */
+  function funnel() {
+    var btn = $("funnel-btn"), panel = $("funnel-panel");
+    if (!btn || !panel) return;
+
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      panel.hidden = !panel.hidden;
+      btn.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+    document.addEventListener("click", function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && e.target !== btn) {
+        panel.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    function bind(groupId, fn) {
+      var g = $(groupId);
+      if (!g) return;
+      [].forEach.call(g.querySelectorAll("button"), function (b) {
+        b.addEventListener("click", function () {
+          [].forEach.call(g.querySelectorAll("button"), function (x) { x.classList.remove("on"); });
+          b.classList.add("on");
+          fn(b.dataset.v);
+          paint();
+        });
+      });
+    }
+    bind("fp-platform", function (v) { platform = v; });
+    bind("fp-sort", function (v) { sortBy = v; });
+
+    var reset = $("fp-reset");
+    if (reset) reset.addEventListener("click", function () {
+      platform = "all"; sortBy = "new";
+      ["fp-platform", "fp-sort"].forEach(function (id) {
+        [].forEach.call($(id).querySelectorAll("button"), function (b, i) {
+          b.classList.toggle("on", i === 0);
+        });
+      });
+      paint();
+    });
+  }
+
+  /* 有筛选/排序在生效时，漏斗按钮上亮个小点 */
+  function funnelState() {
+    var dot = $("funnel-dot");
+    if (dot) dot.hidden = platform === "all" && sortBy === "new";
   }
 
   /* ── 画廊 ── */
@@ -199,16 +246,22 @@
     var box = $("masonry");
     box.innerHTML = "";
     var list = works.filter(function (w) {
-      if (cur === "all") return true;
-      if (cur === "image" || cur === "video") return w.kind === cur;
-      if (cur.indexOf("ch") === 0) return (w.channel || "抖音") === cur.slice(2);
-      if (cur.charAt(0) === "y") return w.year === cur.slice(1);
+      if (cur === "image" || cur === "video") { if (w.kind !== cur) return false; }
+      else if (cur.charAt(0) === "y") { if (w.year !== cur.slice(1)) return false; }
+      if (platform !== "all" && (w.channel || "抖音") !== platform) return false;
       return true;
     });
-    // 置顶的排最前面（按 build_library.py 里的 PINNED_ORDER），其余保持日期倒序
+    // 置顶的排最前面（按 build_library.py 里的 PINNED_ORDER），其余按漏斗里选的排序
+    var hot = function (w) {
+      var s = w.stats || {};
+      return (s.digg || 0) + (s.comment || 0) * 3 + (s.collect || 0) * 2;
+    };
     list.sort(function (a, b) {
       var pa = a.pin == null ? 999 : a.pin, pb = b.pin == null ? 999 : b.pin;
-      return pa - pb;
+      if (pa !== pb) return pa - pb;
+      if (sortBy === "old") return (a.date || "") < (b.date || "") ? -1 : 1;
+      if (sortBy === "hot") return hot(b) - hot(a);
+      return (a.date || "") < (b.date || "") ? 1 : -1;   // new：时间倒序
     });
     var frag = document.createDocumentFragment();
     list.forEach(function (w) { frag.appendChild(tile(w)); });
@@ -217,6 +270,9 @@
     $("gallery-note").textContent = L.generated
       ? "共 " + works.length + " 部　·　数据更新于 " + L.generated
       : "";
+    var c = $("fp-count");
+    if (c) c.textContent = "当前 " + list.length + " 部";
+    funnelState();
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -225,6 +281,7 @@
     feature();
     pinned();
     filters();
+    funnel();
     paint();
     if (!window.LIBRARY) {
       // 数据脚本没加载上：说清楚，别让首页看着像"没有作品"
