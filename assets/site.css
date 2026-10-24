@@ -276,7 +276,7 @@ button{font:inherit;color:inherit;}
 .empty{text-align:center; color:var(--muted); font-size:13px; padding:70px 0;}
 
 /* ---------- 页脚 ---------- */
-.site-foot{margin-top:64px; border-top:1px solid var(--line); padding:24px 0 32px;}
+.site-foot{margin-top:52px; border-top:1px solid var(--line); padding:18px 0 24px;}
 .site-foot .wrap{
   display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
   font-family:var(--sans); font-size:11px; color:var(--muted); letter-spacing:.06em;
