@@ -67,14 +67,43 @@
 
   /* ── 正文 ── */
   if (w.kind === "video" && w.video) {
-    var v = el("video");
-    v.controls = true;
-    v.playsInline = true;
-    v.preload = "metadata";
-    if (w.cover) v.poster = w.cover;
-    v.src = w.video;
-    $("w-video").appendChild(v);
-    $("w-video").hidden = false;
+    /* 封面 + 播放按钮：点了才加载视频。
+       不用 <video poster> 直接显示——纪录片封面是竖版设计图，视频是横屏，
+       poster 会被塞进横屏画面里两边留黑边。封面自己占一个竖版画框，点一下再播。 */
+    var box = $("w-video");
+    if (w.cover) {
+      var cv = el("div", "vid-cover");
+      var ci = el("img");
+      ci.src = w.cover;
+      ci.alt = w.title || "";
+      ci.decoding = "async";
+      var pb = el("button", "vid-play");
+      pb.type = "button";
+      pb.setAttribute("aria-label", "播放");
+      pb.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+      cv.appendChild(ci);
+      cv.appendChild(pb);
+      box.appendChild(cv);
+      cv.addEventListener("click", function () {
+        var v = el("video");
+        v.controls = true;
+        v.playsInline = true;
+        v.preload = "none";
+        v.src = w.video;
+        v.poster = w.cover;
+        box.innerHTML = "";
+        box.appendChild(v);
+        v.play().catch(function () {});
+      });
+    } else {
+      var v = el("video");
+      v.controls = true;
+      v.playsInline = true;
+      v.preload = "none";
+      v.src = w.video;
+      box.appendChild(v);
+    }
+    box.hidden = false;
 
     /* ── 全片文稿：就放在视频下面的空白处，纯文字，不加任何修饰 ── */
     var sc = (window.SCRIPTS || {})[w.id];

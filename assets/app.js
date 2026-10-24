@@ -213,7 +213,8 @@
 
     if (w.cover) {
       var img = el("img");
-      img.src = w.cover;
+      // 瓦片用缩略图（有的话）；详情页才用高清封面
+      img.src = w.coverThumb || w.cover;
       img.alt = w.title || "";
       img.loading = "lazy";
       img.decoding = "async";

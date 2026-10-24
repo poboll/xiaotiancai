@@ -237,6 +237,20 @@ def scan_work(base, rel_parts, name, channel_default):
                     except Exception:
                         pass
                 item["coverW"], item["coverH"] = cw, ch
+                # 瓦片缩略图：设计封面可能是全尺寸大图（1MB+），
+                # 首页直接加载太狠。另存一张 640 宽 webp，瓦片用小的、详情页用大的。
+                thumb = os.path.join(tdir, "cover.webp")
+                if HAS_PIL and not os.path.exists(thumb):
+                    try:
+                        with Image.open(poster) as im:
+                            im = im.convert("RGB")
+                            if im.width > THUMB_W:
+                                im = im.resize((THUMB_W, round(im.height * THUMB_W / im.width)), Image.LANCZOS)
+                            im.save(thumb, "WEBP", quality=THUMB_Q, method=4)
+                    except Exception as e:
+                        print(f"  ! cover thumb fail {thumb}: {e}", file=sys.stderr)
+                if os.path.exists(thumb):
+                    item["coverThumb"] = f"thumbs/{hh}/cover.webp"
             # 时长
             if HAS_FFMPEG:
                 r = subprocess.run(
