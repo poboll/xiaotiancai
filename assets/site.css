@@ -374,15 +374,33 @@ button{font:inherit;color:inherit;}
 .shot.playing video{display:block;}
 
 .work-video{max-width:900px; margin:44px auto 0; padding:0 18px;}
+.work-script{max-width:800px; margin:52px auto 0; padding:0 18px;}
 
-/* 视频封面：竖版设计封面 + 播放按钮，点了才加载视频 */
-.vid-cover{
+/* 视频画框：封面状态按封面比例锁尺寸（JS 写入 aspect-ratio），
+   点击后同一个框平滑收成视频比例（JS 写 height）——不是另开一个播放器，
+   收完框高=视频高，无黑边；下面的文稿在独立容器里，不受影响。 */
+.vid-frame{
   position:relative; max-width:560px; margin:0 auto;
-  border:1px solid var(--line); background:#0d0c0b; cursor:pointer;
-  transition:border-color .25s, box-shadow .25s;
+  aspect-ratio:3 / 4;                 /* 兜底比例，JS 会用封面实际尺寸覆盖 */
+  background:#0d0c0b; border:1px solid var(--line); overflow:hidden;
+  transition:width .5s cubic-bezier(.22,.61,.36,1),
+             height .5s cubic-bezier(.22,.61,.36,1),
+             border-color .25s, box-shadow .25s;
 }
-.vid-cover:hover{border-color:var(--line-2); box-shadow:0 18px 44px -24px rgba(60,48,30,.5);}
-.vid-cover img{width:100%; height:auto; display:block;}
+.vid-frame:hover{border-color:var(--line-2); box-shadow:0 18px 44px -24px rgba(60,48,30,.5);}
+.vid-frame.playing:hover{border-color:var(--line); box-shadow:none;}
+@media (prefers-reduced-motion: reduce){
+  .vid-frame{transition:border-color .25s, box-shadow .25s;}
+}
+.vid-cover{position:absolute; inset:0; z-index:2; cursor:pointer;}
+.vid-cover.loading{cursor:progress;}
+.vid-cover.loading .vid-play{background:rgba(0,0,0,.28);}
+.vid-cover.loading .vid-play svg{opacity:.4; transform:scale(.9);}
+.vid-cover img{width:100%; height:100%; object-fit:cover; display:block;}
+.vid-frame video.vid-live{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:contain; background:#0d0c0b; display:block;
+}
 .vid-play{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   background:rgba(0,0,0,0); border:0; cursor:pointer; transition:background .25s;
@@ -394,14 +412,10 @@ button{font:inherit;color:inherit;}
 }
 .vid-cover:hover .vid-play{background:rgba(0,0,0,.14);}
 .vid-cover:hover .vid-play svg{transform:scale(1.08);}
-.work-video video{
-  width:100%; max-height:78vh; background:#0d0c0b; display:block;
-  border:1px solid var(--line);
-}
 
-/* ---------- 视频文稿：视频下面空白处的一段纯文字 ---------- */
+/* ---------- 视频文稿：视频下面的一段纯文字 ---------- */
 .w-script{
-  max-width:760px; margin:40px auto 0;
+  max-width:760px; margin:0 auto;
 }
 .w-sc-sec{
   display:flex; align-items:baseline; gap:12px;

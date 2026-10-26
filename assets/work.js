@@ -67,48 +67,108 @@
 
   /* ── 正文 ── */
   if (w.kind === "video" && w.video) {
-    /* 封面 + 播放按钮：点了才加载视频。
-       不用 <video poster> 直接显示——纪录片封面是竖版设计图，视频是横屏，
-       poster 会被塞进横屏画面里两边留黑边。封面自己占一个竖版画框，点一下再播。 */
-    var box = $("w-video");
+    /* 封面 + 播放按钮，点了才加载视频。
+       画框（.vid-frame）先按封面比例占位，竖版设计封面完整显示；
+       点击后视频就在同一个框里原地播放，框平滑收成视频比例、宽度展开到容器上限。
+       只摘掉封面这一层，绝不清空容器——清了会把下面的文稿一起删掉。 */
+    var vbox = $("w-video");
+    var frame = el("div", "vid-frame");
+
+    var setRatio = function (w0, h0) {
+      if (w0 > 0 && h0 > 0) frame.style.aspectRatio = w0 + " / " + h0;
+    };
+    setRatio(w.coverW, w.coverH);
+
+    var mountVideo = function () {
+      var v = el("video");
+      v.className = "vid-live";
+      v.controls = true;
+      v.playsInline = true;
+      v.preload = "auto";
+      v.src = w.video;
+      if (w.cover) v.poster = w.cover;
+      frame.appendChild(v);
+      v.play().catch(function () {});
+      return v;
+    };
+
     if (w.cover) {
       var cv = el("div", "vid-cover");
       var ci = el("img");
       ci.src = w.cover;
       ci.alt = w.title || "";
       ci.decoding = "async";
+      // 数据里没有封面尺寸时，用图片自身比例兜底，避免画框比例不对把封面裁掉
+      if (!(w.coverW && w.coverH)) {
+        ci.addEventListener("load", function () {
+          setRatio(ci.naturalWidth, ci.naturalHeight);
+        });
+      }
       var pb = el("button", "vid-play");
       pb.type = "button";
       pb.setAttribute("aria-label", "播放");
       pb.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
       cv.appendChild(ci);
       cv.appendChild(pb);
-      box.appendChild(cv);
+      frame.appendChild(cv);
+      vbox.appendChild(frame);
+
       cv.addEventListener("click", function () {
-        var v = el("video");
-        v.controls = true;
-        v.playsInline = true;
-        v.preload = "none";
-        v.src = w.video;
-        v.poster = w.cover;
-        box.innerHTML = "";
-        box.appendChild(v);
-        v.play().catch(function () {});
+        if (cv.classList.contains("loading")) return;   // 防连点
+        cv.classList.add("loading");
+
+        // 视频先在封面底下加载，等第一帧真的出来了再换——
+        // 换的那一瞬间就是画面，中间不会露出"竖版海报塞进横框"的黑边。
+        var v = mountVideo();
+        var swapped = false;
+
+        var swap = function () {
+          if (swapped) return;
+          swapped = true;
+
+          // 锁住封面此刻的尺寸，再平滑收成视频比例（高度），宽度顺带展开到容器上限。
+          // 全程是同一个框在变，不是"下面另开一个播放器"。
+          var rect = frame.getBoundingClientRect();
+          frame.style.aspectRatio = "auto";
+          frame.style.height = rect.height + "px";
+          frame.style.width = rect.width + "px";
+          frame.classList.add("playing");
+          if (cv.parentNode === frame) frame.removeChild(cv);   // 只换封面这一层
+
+          var fit = function () {
+            if (!v.videoWidth || !v.videoHeight) return;
+            var host = frame.parentElement;
+            var cs = getComputedStyle(host);
+            var avail = host.clientWidth -
+              parseFloat(cs.paddingLeft || 0) - parseFloat(cs.paddingRight || 0);
+            var ratio = v.videoWidth / v.videoHeight;
+            var w1 = Math.min(avail, 900);
+            var h1 = Math.round(w1 / ratio);
+            var maxH = Math.round(window.innerHeight * 0.78);
+            if (h1 > maxH) { h1 = maxH; w1 = Math.round(h1 * ratio); }
+            frame.style.maxWidth = "none";
+            frame.style.width = w1 + "px";
+            frame.style.height = h1 + "px";
+          };
+          if (v.readyState >= 1) fit();
+          else v.addEventListener("loadedmetadata", fit, { once: true });
+          // 转屏 / 改窗口大小：画框跟着重算，不然会溢出或留空
+          window.addEventListener("resize", fit);
+        };
+
+        v.addEventListener("playing", swap, { once: true });
+        setTimeout(swap, 2500);        // 兜底：网慢或被拦也照样换过来
       });
     } else {
-      var v = el("video");
-      v.controls = true;
-      v.playsInline = true;
-      v.preload = "none";
-      v.src = w.video;
-      box.appendChild(v);
+      frame.appendChild(mountVideo());
+      vbox.appendChild(frame);
     }
-    box.hidden = false;
+    vbox.hidden = false;
 
-    /* ── 全片文稿：就放在视频下面的空白处，纯文字，不加任何修饰 ── */
+    /* ── 全片文稿：独立容器，视频怎么播都碰不到它 ── */
     var sc = (window.SCRIPTS || {})[w.id];
     if (sc) {
-      var box = el("div", "w-script");
+      var sbox = el("div", "w-script");
       (sc.sections || []).forEach(function (sec) {
         // 〔〕（）开头的是画面、声音、语种注解——视频里都有，不重复
         var lines = (sec.lines || []).filter(function (line) {
@@ -120,7 +180,7 @@
         var head = el("div", "w-sc-sec");
         head.appendChild(el("span", "w-sc-name", sec.name || ""));
         if (sec.time) head.appendChild(el("span", "w-sc-time", sec.time));
-        box.appendChild(head);
+        sbox.appendChild(head);
 
         // 按句号/问号/叹号/省略号断段。字幕是一行一句断开的，
         // 不合并会把一句话拆得七零八落，全合并又会糊成一大团——
@@ -131,7 +191,7 @@
           var text = para.map(function (l) {
             return /^[A-Za-z0-9]/.test(l) ? " " + l : l;
           }).join("");
-          box.appendChild(el("p", null, text));
+          sbox.appendChild(el("p", null, text));
           para = [];
         };
         lines.forEach(function (l) {
@@ -140,7 +200,9 @@
         });
         flush();
       });
-      $("w-video").appendChild(box);
+      var scWrap = $("w-script");
+      scWrap.appendChild(sbox);
+      scWrap.hidden = false;
     }
   } else {
     var body = $("w-body");
