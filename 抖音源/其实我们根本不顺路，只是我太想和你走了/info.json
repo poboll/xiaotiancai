@@ -1,0 +1,44 @@
+{
+ "aweme_id": "7706132517041007345",
+ "标题": "其实我们根本不顺路，只是我太想和你走了",
+ "发布时间": "2026-11-09",
+ "create_time": 1794223795,
+ "作者": {
+  "nickname": "小天才.",
+  "unique_id": "Xiaotiancaiylt",
+  "sec_uid": "MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU",
+  "aweme_count": 61,
+  "signature": "阳谋无解\n抵制虐待动物"
+ },
+ "统计": {
+  "admire_count": 0,
+  "collect_count": 891,
+  "comment_count": 558,
+  "digg_count": 32430,
+  "play_count": 0,
+  "recommend_count": 1445,
+  "share_count": 2012
+ },
+ "类型": "图文",
+ "作品链接": "https://www.douyin.com/note/7706132517041007345",
+ "媒体": {
+  "kind": "image",
+  "images": [
+   {
+    "file": "01.webp",
+    "width": 2160,
+    "height": 2884,
+    "live_video": "01.mp4",
+    "live_photo_ios": {
+     "mov": "01.mp4"
+    }
+   }
+  ]
+ },
+ "live_photos": [
+  {
+   "index": 1,
+   "mov": "01.mp4"
+  }
+ ]
+}
