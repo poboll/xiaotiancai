@@ -8,7 +8,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/site.css?v=6">
+<link rel="stylesheet" href="/assets/site.css?v=29b6d8e4">
 <style>
   /* 404 页自成一体：就算站点样式没加载上，也要能看、能点回去 */
   .nf{
@@ -53,6 +53,18 @@
     font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
     font-size:10px; letter-spacing:.18em; color:#8b8579;
   }
+
+  /* 窄屏：字距会累积成横向溢出，标题被裁、第三个按钮跑到屏幕外 */
+  @media (max-width:560px){
+    .nf{padding:48px 20px;}
+    .nf-title{font-size:24px; letter-spacing:.08em; text-indent:.08em;}
+    .nf-rule{margin:24px 0;}
+    .nf-text{font-size:13.5px; line-height:2;}
+    .nf-path{max-width:100%; overflow-wrap:anywhere;}
+    .nf-links{gap:10px; margin-top:30px; width:100%; max-width:280px;}
+    .nf-links a{flex:1 1 100%; padding:10px 16px; font-size:11.5px;}
+    .nf-foot{margin-top:34px;}
+  }
 </style>
 </head>
 <body>
@@ -74,11 +86,11 @@
 <script>
 (function(){
   /* 老式作品文件夹链接的救援：这种路径线上就会落到本页。
-     /works/<文件夹>/ 或 /works/<文件夹>/index.html → work.html?w=<文件夹>
+     /works/<文件夹>/ 或 /works/<文件夹>/index.html → work.html#w=<文件夹>
      （那封信有自己的页面，不抢。pathname 片段已百分号编码，原样拼接即可） */
   var m = location.pathname.match(/^\/works\/([^/]+)\/(?:index\.html)?$/);
   if (m && m[1] !== "longlong-xiaotiancai") {
-    location.replace("/work.html?w=" + m[1]);
+    location.replace("/work.html#w=" + m[1]);
     return;
   }
   /* 其余情况：把用户打开的地址显示出来，方便排查 */
@@ -90,5 +102,6 @@
   }
 })();
 </script>
+  <script src="/assets/sw-register.js?v=0c4132b7"></script>
 </body>
 </html>
