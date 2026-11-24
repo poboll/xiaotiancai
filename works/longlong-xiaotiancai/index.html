@@ -8,7 +8,7 @@
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../../favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<link rel="stylesheet" href="../../assets/site.css?v=6">
+<link rel="stylesheet" href="../../assets/site.css?v=29b6d8e4">
 </head>
 <body class="reader">
 
@@ -231,9 +231,24 @@
   </figure>
 </div>
 
+<a class="back-fab" id="letter-back" href="../../index.html">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+  返回
+</a>
+
 <script>
 (function(){
-  /* 顶栏「返回」：同站进来就后退，别处进来就回首页 */
+  /* 左下角返回：同站进来就后退，别处进来就回首页 */
+  var fab=document.getElementById("letter-back");
+  if(fab)fab.addEventListener("click",function(e){
+    var r=document.referrer||"";
+    if(r.indexOf(location.origin)===0&&history.length>1){e.preventDefault();history.back();}
+  });
+
+  /* 顶栏「返回」：同上 */
   var b=document.getElementById("back-link");
   if(b)b.addEventListener("click",function(e){
     var r=document.referrer||"";
@@ -291,5 +306,6 @@
   });
 })();
 </script>
+  <script src="../../assets/sw-register.js?v=0c4132b7"></script>
 </body>
 </html>
