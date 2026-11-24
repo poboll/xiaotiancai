@@ -65,12 +65,32 @@ def urlpath(*parts):
     return "/".join(quote(p, safe="") for p in parts)
 
 
+def clean_title(t):
+    """把「未命名作品（2024-01-18）」这类兜底名当成空标题。
+    这些作品确实没写文案，站点上就不显示标题，只留日期和张数。"""
+    t = (t or "").strip()
+    if not t:
+        return ""
+    if t in ("未命名", "无题"):
+        return ""
+    if re.fullmatch(r"未命名作品[（(][\d\-\s]+[）)]", t):
+        return ""
+    # 纯数字 / 纯 ID 串（≥6 位，没有中文和字母词）
+    if re.fullmatch(r"[\d_\-\.]{6,}", t):
+        return ""
+    # 老作品的标题字段直接就是 aweme_id（十六进制那种，如 6291ca15000000021035b84）。
+    # 特征是：一整串、没有空格和中文、长度 ≥12。真文案不会长这样。
+    if " " not in t and not re.search(r"[\u4e00-\u9fff]", t) and re.fullmatch(r"[0-9a-zA-Z_\-]{12,}", t):
+        return ""
+    return t
+
+
 def split_title(raw):
     """标题第一行作文本，其余 #话题 拆成 tags。"""
     raw = (raw or "").strip()
     lines = [l.strip() for l in raw.split("\n") if l.strip()]
     if not lines:
-        return "未命名", []
+        return "", []
     first = lines[0]
     rest = " ".join(lines[1:])
     tags = re.findall(r"#([^\s#]+)", rest or "")
@@ -86,7 +106,89 @@ def split_title(raw):
         if t and t not in seen:
             seen.add(t)
             out.append(t)
-    return (first or "未命名"), out[:4]
+    return clean_title(first), out[:4]
+
+
+def trim_uniform_border(im, tol=6, max_frac=0.22, min_area=0.5):
+    """找出图片四周「整条都是同一个纯色」的边，返回 (l, t, r, b) 像素。
+
+    为什么要它：
+    - 小红书导出的图会把 2:3 的照片左右垫白边凑成 3:4（32px / 640 宽），
+      放到瀑布流里就是一条条白框，很难看；
+    - 抖音竖版视频的封面自带上下黑边（有的是 227px），瓦片整个变成黑块。
+    这两种边都是「填充物」，不是画面内容，裁掉才对。
+
+    只认纯白（min≥236）和纯黑（max≤26），并且每边最多吃掉 max_frac，
+    防止把正常留白的照片（比如白墙人像）裁坏。视频封面的黑边能到 28%，
+    所以生成封面时单独把这个上限放宽。"""
+    W, H = im.size
+    px = im.load()
+    stepx = max(1, W // 60)
+    stepy = max(1, H // 60)
+    xs = list(range(0, W, stepx))
+    ys = list(range(0, H, stepy))
+
+    def uniform_row(y):
+        c0 = px[0, y]
+        for x in xs:
+            p = px[x, y]
+            if max(abs(p[0] - c0[0]), abs(p[1] - c0[1]), abs(p[2] - c0[2])) > tol:
+                return None
+        return c0
+
+    def uniform_col(x):
+        c0 = px[x, 0]
+        for y in ys:
+            p = px[x, y]
+            if max(abs(p[0] - c0[0]), abs(p[1] - c0[1]), abs(p[2] - c0[2])) > tol:
+                return None
+        return c0
+
+    def filler(c):
+        return c is not None and (min(c) >= 236 or max(c) <= 26)
+
+    lim_y, lim_x = int(H * max_frac), int(W * max_frac)
+    t = 0
+    while t < lim_y and filler(uniform_row(t)):
+        t += 1
+    b = 0
+    while b < lim_y and filler(uniform_row(H - 1 - b)):
+        b += 1
+    l = 0
+    while l < lim_x and filler(uniform_col(l)):
+        l += 1
+    r = 0
+    while r < lim_x and filler(uniform_col(W - 1 - r)):
+        r += 1
+
+    # 裁完至少得留这么多面积，否则宁可不动
+    if (W - l - r) * (H - t - b) < W * H * min_area:
+        return 0, 0, 0, 0
+    return l, t, r, b
+
+
+def make_cover(src, dst, max_w=THUMB_W):
+    """生成瓦片用的封面缩略图：先裁掉四周的填充边，再缩到 640 宽。
+
+    返回 (w, h) 裁完后的尺寸；失败返回 None。
+    缩略图是派生文件，覆盖写没有风险，原图一概不动。
+    视频封面的黑边可以很厚（见过上下各 28%），所以上限放到 0.34。"""
+    if not HAS_PIL:
+        return None
+    try:
+        with Image.open(src) as im:
+            im = im.convert("RGB")
+            l, t, r, b = trim_uniform_border(im, max_frac=0.34, min_area=0.25)
+            if max(l, t, r, b) >= 4:
+                im = im.crop((l, t, im.width - r, im.height - b))
+            if im.width > max_w:
+                im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            im.save(dst, "WEBP", quality=THUMB_Q, method=4)
+            return im.size
+    except Exception as e:
+        print(f"  ! cover fail {src}: {e}", file=sys.stderr)
+        return None
 
 
 def make_thumb(src, dst, max_w=THUMB_W):
@@ -214,6 +316,9 @@ def scan_work(base, rel_parts, name, channel_default):
         "cover": None,
         "coverW": 0,
         "coverH": 0,
+        # 裁掉填充边后的瓦片封面尺寸；没有裁剪时留空，前端回落到 coverW/H
+        "thumbW": 0,
+        "thumbH": 0,
         "video": None,
         "pin": None,
     }
@@ -239,18 +344,16 @@ def scan_work(base, rel_parts, name, channel_default):
                 item["coverW"], item["coverH"] = cw, ch
                 # 瓦片缩略图：设计封面可能是全尺寸大图（1MB+），
                 # 首页直接加载太狠。另存一张 640 宽 webp，瓦片用小的、详情页用大的。
+                # 视频封面常自带上下黑边（竖版视频塞进 9:16 之外的比例），
+                # 顺手在生成时裁掉，不然瓦片就是一整块黑。
                 thumb = os.path.join(tdir, "cover.webp")
-                if HAS_PIL and not os.path.exists(thumb):
-                    try:
-                        with Image.open(poster) as im:
-                            im = im.convert("RGB")
-                            if im.width > THUMB_W:
-                                im = im.resize((THUMB_W, round(im.height * THUMB_W / im.width)), Image.LANCZOS)
-                            im.save(thumb, "WEBP", quality=THUMB_Q, method=4)
-                    except Exception as e:
-                        print(f"  ! cover thumb fail {thumb}: {e}", file=sys.stderr)
-                if os.path.exists(thumb):
+                size = make_cover(poster, thumb)
+                if size:
                     item["coverThumb"] = f"thumbs/{hh}/cover.webp"
+                    item["thumbW"], item["thumbH"] = size
+                    # 详情页的封面也用裁过边这张——poster.jpg 上下带黑边，
+                    # 直接铺进画框会是一大块黑。视频本身没动，播的时候按视频比例重算。
+                    item["cover"] = item["coverThumb"]
             # 时长
             if HAS_FFMPEG:
                 r = subprocess.run(
@@ -274,17 +377,53 @@ def scan_work(base, rel_parts, name, channel_default):
             thumb_name = os.path.splitext(f)[0] + ".webp"
             thumb = os.path.join(tdir, thumb_name)
             ok = make_thumb(src, thumb)
-            item["images"].append({
+            entry = {
                 "src": f"thumbs/{hh}/{thumb_name}" if ok else urlpath(*(rel_parts + [f])),
                 "full": urlpath(*(rel_parts + [f])),
                 "live": urlpath(*(rel_parts + [im["live_video"]])) if im.get("live_video") else None,
                 "w": im.get("width") or 0,
                 "h": im.get("height") or 0,
-            })
+            }
+            # 记下图片自带的填充边（小红书导出的白边最常见），
+            # 详情页据此把容器比例改成裁后的比例，白边就不会显示出来。
+            if ok and HAS_PIL:
+                try:
+                    with Image.open(thumb) as _im:
+                        _l, _t, _r, _b = trim_uniform_border(_im.convert("RGB"))
+                    if max(_l, _t, _r, _b) >= 4:
+                        _W, _H = _im.size
+                        cl, ct = _l / _W, _t / _H
+                        cr, cb = _r / _W, _b / _H
+                        # 只在「左右对称 / 上下对称」时才裁：
+                        # 前端用 object-fit:cover 是靠两边等量裁切来吃掉填充边的，
+                        # 不对称的话会把有内容的一侧也切掉，宁可不动。
+                        if abs(cl - cr) <= 0.02 and abs(ct - cb) <= 0.02:
+                            entry["crop"] = [round(cl, 4), round(ct, 4), round(cr, 4), round(cb, 4)]
+                except Exception:
+                    pass
+            item["images"].append(entry)
         if item["images"]:
-            item["cover"] = item["images"][0]["src"]
-            item["coverW"] = item["images"][0]["w"]
-            item["coverH"] = item["images"][0]["h"]
+            first = item["images"][0]
+            item["cover"] = first["src"]
+            item["coverW"] = first["w"]
+            item["coverH"] = first["h"]
+            # 首图如果自带白边（小红书 2:3 垫成 3:4 的常见情况），
+            # 单独生成一张裁干净的瓦片封面。原图与详情页缩略图都不动，
+            # 只在列表里用这张，避免瀑布流出现一排白框。
+            src0 = os.path.join(base, (imgs[0].get("file") or "")) if imgs else ""
+            if src0 and os.path.exists(src0):
+                cover_thumb = os.path.join(tdir, "cover.webp")
+                if HAS_PIL:
+                    try:
+                        with Image.open(src0) as _im:
+                            _insets = trim_uniform_border(_im.convert("RGB"), max_frac=0.34, min_area=0.25)
+                    except Exception:
+                        _insets = (0, 0, 0, 0)
+                    if max(_insets) >= 4:
+                        size = make_cover(src0, cover_thumb)
+                        if size:
+                            item["coverThumb"] = f"thumbs/{hh}/cover.webp"
+                            item["thumbW"], item["thumbH"] = size
         item["count"] = len(item["images"])
 
     # 置顶排序位（0,1,2…），非置顶保持 None
@@ -374,12 +513,64 @@ def build():
     ch = {}
     for w in works:
         ch[w.get("channel", "?")] = ch.get(w.get("channel", "?"), 0) + 1
+    stamp_versions()
     print(f"✓ {len(works)} 部作品（{imgs} 张图 / {vids} 条视频）→ data/library.js")
     print(f"  渠道分布: " + " / ".join(f"{k} {v}" for k, v in sorted(ch.items())))
     if merged:
         print(f"  双平台合并 {merged} 部（去重表 scripts/dupe_map.json）")
     if not HAS_PIL:
         print("! 没装 Pillow，缩略图跳过（画廊会直接用原图，慢一些）", file=sys.stderr)
+
+
+def stamp_versions():
+    """给 HTML 里对脚本/样式的引用打上内容 hash。
+
+    为什么要这个：GitHub Pages 对所有资源只给 max-age=600，而 sw.js 对
+    /assets/ 和 /data/ 都是 cache-first（永不过期）。所以只要 URL 不变，
+    改过的 app.js / work.js / site.css 就永远到不了老访客手上——表现为
+    "改了跟没改一样"、"点进去说没有这部作品"。用内容 hash 当版本号：
+    内容没变 URL 就不变（纯吃缓存，零请求），一改 hash 就变，自然失效。
+
+    覆盖范围：data/*.js（作品数据）+ assets/*.js + assets/*.css。
+    同时支持 src="..." 和 href="..." 两种引用。
+    """
+    import glob
+    import hashlib
+    import re
+
+    # (所在目录, 文件名, 引用属性)
+    targets = [
+        ("data", "library.js", "src"),
+        ("data", "works.js", "src"),
+        ("assets", "app.js", "src"),
+        ("assets", "work.js", "src"),
+        ("assets", "guard.js", "src"),
+        ("assets", "sw-register.js", "src"),
+        ("assets", "site.css", "href"),
+        ("assets", "letter.css", "href"),
+    ]
+    htmls = glob.glob(os.path.join(ROOT, "*.html"))
+    htmls += glob.glob(os.path.join(ROOT, "works", "*", "index.html"))
+
+    for sub, name, attr in targets:
+        path = os.path.join(ROOT, sub, name)
+        if not os.path.exists(path):
+            continue
+        with open(path, "rb") as f:
+            raw = f.read()
+        # generated 时间戳每次生成都变，但它不代表内容变化——算 hash 前剔掉，
+        # 否则版本号每次都会变，缓存永远命中不了。
+        raw = re.sub(rb'"generated":"[^"]*",?', b"", raw)
+        h = hashlib.md5(raw).hexdigest()[:8]
+        pat = re.compile(r'(' + attr + r'="[^"]*' + re.escape(name) + r')(\?v=[0-9a-zA-Z]+)?(")')
+        for html in htmls:
+            with open(html, encoding="utf-8") as f:
+                t = f.read()
+            new = pat.sub(lambda m: m.group(1) + "?v=" + h + m.group(3), t)
+            if new != t:
+                with open(html, "w", encoding="utf-8") as f:
+                    f.write(new)
+
 
 
 if __name__ == "__main__":

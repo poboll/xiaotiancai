@@ -1,9 +1,28 @@
 /* ===========================================================
-   作品详情页：work.html?w=<作品文件夹名>
+   作品详情页：work.html#w=<作品 id>（兼容老的 ?w=）
    =========================================================== */
-(function () {
+function boot(retried) {
+  /* 数据脚本本身有 ?v=<内容hash> 版本戳，正常情况不会过期。
+     但 Service Worker / 浏览器可能留着旧副本，于是出现"链接明明是对的，
+     点进来却说没有这部作品"。这种情况不该让访客自己去清缓存——
+     带时间戳重取一次，取到新的再重跑一遍渲染。只重试一次，避免死循环。 */
+  function reloadLibrary() {
+    var s = document.createElement("script");
+    s.src = "data/library.js?fresh=" + Date.now();
+    s.onload = function () { boot(true); };
+    s.onerror = function () { showMissing(); };
+    document.head.appendChild(s);
+  }
+
+  function showMissing() {
+    $("w-title").textContent = "没有找到这部作品";
+    $("w-kicker").textContent = "";
+    $("w-src").innerHTML = '链接可能已经失效，<a href="index.html">回到全部作品</a>。';
+  }
+
   if (!window.LIBRARY) {
     // 数据脚本没加载上：不是"没有这部作品"，是列表没到
+    if (!retried) { reloadLibrary(); return; }
     $("w-title").textContent = "数据没加载上";
     $("w-kicker").textContent = "";
     $("w-src").innerHTML = '作品列表脚本没加载上，<a href="index.html">回到全部作品</a>，或稍后刷新。';
@@ -26,27 +45,51 @@
     return String(n);
   }
 
-  var raw = new URLSearchParams(location.search).get("w") || "";
+  /* 作品 id 三个地方都认，谁在就用谁：
+     - #w=xxx  现在的链接写法（hash 不会被某些静态服务器 / 内嵌预览吞掉）
+     - ?w=xxx  老链接、以及以前分享出去的地址
+     - ?w=xxx#w=yyy 混着来的也认
+     之前只读 ?w=，一旦运行环境把查询串吃掉，页面就变成"没有找到这部作品"。 */
+  var raw = "";
+  var hm = /(?:^#|&)w=([^&]*)/.exec(location.hash || "");
+  if (hm) raw = decodeURIComponent(hm[1]);
+  if (!raw) raw = new URLSearchParams(location.search).get("w") || "";
   var idx = -1;
   for (var i = 0; i < works.length; i++) {
-    // 新链接用短 id；老链接可能是文件夹名，一并兼容
-    if (works[i].id === raw || works[i].dir === raw) { idx = i; break; }
+    // 新链接用短 id；老链接可能是文件夹名，一并兼容。
+    // 统一转字符串比，防数据里 id 被写成数字时 === 永远不成立。
+    if (String(works[i].id) === raw || works[i].dir === raw) { idx = i; break; }
   }
 
   if (idx < 0) {
-    $("w-title").textContent = "没有找到这部作品";
-    $("w-kicker").textContent = "";
-    $("w-src").innerHTML = '链接可能已经失效，<a href="index.html">回到全部作品</a>。';
+    // 先在本地这堆数据里再宽一点找：链接被转义过、或者多了首尾空格
+    var dec = raw;
+    try { dec = decodeURIComponent(raw); } catch (e) {}
+    for (var j = 0; j < works.length && idx < 0; j++) {
+      if (String(works[j].id) === dec || works[j].dir === dec ||
+          (works[j].dir && works[j].dir.trim() === dec.trim())) idx = j;
+    }
+  }
+
+  if (idx < 0) {
+    // 还是没找到 → 八成拿到的是旧副本，重取一次数据再试
+    if (!retried) { reloadLibrary(); return; }
+    showMissing();
     return;
   }
 
   var w = works[idx];
 
   /* ── 头部 ── */
-  document.title = w.title + " · 拾遗馆";
+  document.title = (w.title || w.date || "作品") + " · 拾遗馆";
   $("w-kicker").textContent = (w.pin != null ? "置顶 · " : "") +
     (w.kind === "video" ? "影像" : "写真");
-  $("w-title").textContent = w.title || "未命名";
+  // 没写文案的作品不编标题，直接让日期当头部
+  if (w.title) {
+    $("w-title").textContent = w.title;
+  } else {
+    $("w-title").style.display = "none";
+  }
   $("w-date").textContent = (w.date || "") +
     (w.count ? "　·　共 " + w.count + " 张" : "") +
     (w.channel ? "　·　" + w.channel : "");
@@ -77,7 +120,9 @@
     var setRatio = function (w0, h0) {
       if (w0 > 0 && h0 > 0) frame.style.aspectRatio = w0 + " / " + h0;
     };
-    setRatio(w.coverW, w.coverH);
+    // 封面是裁掉上下黑边的那张，画框也要按裁后的比例，
+    // 否则封面被 contain 进竖版框里又会露出黑边
+    setRatio(w.thumbW || w.coverW, w.thumbH || w.coverH);
 
     var mountVideo = function () {
       var v = el("video");
@@ -213,6 +258,23 @@
       img.alt = w.title + " 第 " + (n + 1) + " 张";
       img.loading = n < 2 ? "eager" : "lazy";
       img.decoding = "async";
+      // im.crop = [左, 上, 右, 下] 占宽高的比例，构建时算出来的填充边。
+      // 有它就把容器比例改成裁后的比例，让 cover 把白边吃掉。
+      if (im.crop && (im.crop[0] || im.crop[1] || im.crop[2] || im.crop[3])) {
+        var cw = 1 - im.crop[0] - im.crop[2];
+        var chh = 1 - im.crop[1] - im.crop[3];
+        if (cw > 0.5 && chh > 0.5) {
+          box.classList.add("cropped");
+          // 注意是「宽 × cw : 高 × chh」，不是 cw : chh——
+          // 后者只在原图是正方形时才对，否则裁错了轴，白边依旧在。
+          var rw = (im.w || 0) * cw, rh = (im.h || 0) * chh;
+          if (rw > 0 && rh > 0) {
+            box.style.aspectRatio = rw + " / " + rh;
+          } else {
+            box.classList.remove("cropped");
+          }
+        }
+      }
       box.appendChild(img);
 
       if (im.live) {
@@ -252,14 +314,14 @@
   var next = works[idx - 1];
   if (prev) {
     var a = el("a");
-    a.href = "work.html?w=" + encodeURIComponent(prev.id);
+    a.href = "work.html#w=" + encodeURIComponent(prev.id);
     a.appendChild(el("span", "dir", "← 更早"));
     a.appendChild(document.createTextNode(prev.title));
     nav.appendChild(a);
   }
   if (next) {
     var b = el("a", "to-r");
-    b.href = "work.html?w=" + encodeURIComponent(next.id);
+    b.href = "work.html#w=" + encodeURIComponent(next.id);
     b.appendChild(el("span", "dir", "更新 →"));
     b.appendChild(document.createTextNode(next.title));
     nav.appendChild(b);
@@ -289,15 +351,42 @@
   if (!src.children.length) src.textContent = "原作：小天才.（余乐彤）";
 
   /* ── 灯箱 ── */
-  var lb = $("lightbox"), lbImg = $("lb-img"), lbCap = $("lb-cap");
+  var lb = $("lightbox"), lbImg = $("lb-img"), lbCap = $("lb-cap"), lbVid = $("lb-video");
   var cur = 0;
 
   function show(n) {
     var ims = w.images || [];
     if (!ims.length) return;
     cur = (n + ims.length) % ims.length;
-    lbImg.src = ims[cur].full || ims[cur].src;
-    lbCap.textContent = (cur + 1) + " / " + ims.length;
+    var im = ims[cur];
+
+    if (im.live && lbVid) {
+      // 实况图：大图位置直接放视频，循环播放，静音（和手机相册里的 Live 一样）
+      lbImg.hidden = true;
+      lbImg.removeAttribute("src");
+      lbVid.hidden = false;
+      if (lbVid.getAttribute("src") !== im.live) lbVid.src = im.live;
+      lbVid.currentTime = 0;
+      lbVid.play().catch(function () {});
+      lbCap.textContent = (cur + 1) + " / " + ims.length + "　·　LIVE 实况";
+    } else {
+      if (lbVid) {
+        lbVid.pause();
+        lbVid.removeAttribute("src");
+        lbVid.hidden = true;
+      }
+      lbImg.hidden = false;
+      lbImg.src = im.full || im.src;
+      // 灯箱里也把填充白边切掉：clip-path 只影响显示，不动图片本身
+      if (im.crop && (im.crop[0] || im.crop[1] || im.crop[2] || im.crop[3])) {
+        lbImg.style.clipPath = "inset(" +
+          (im.crop[1] * 100).toFixed(2) + "% " + (im.crop[2] * 100).toFixed(2) + "% " +
+          (im.crop[3] * 100).toFixed(2) + "% " + (im.crop[0] * 100).toFixed(2) + "%)";
+      } else {
+        lbImg.style.clipPath = "";
+      }
+      lbCap.textContent = (cur + 1) + " / " + ims.length;
+    }
   }
   function openLB(n) {
     show(n);
@@ -307,6 +396,8 @@
   function closeLB() {
     lb.hidden = true;
     document.body.style.overflow = "";
+    if (lbVid) { lbVid.pause(); lbVid.removeAttribute("src"); lbVid.hidden = true; }
+    lbImg.hidden = false;
   }
 
   /* ── 返回按钮：同站进来就后退，别处进来就回首页 ── */
@@ -331,4 +422,9 @@
     if (e.key === "ArrowLeft") show(cur - 1);
     if (e.key === "ArrowRight") show(cur + 1);
   });
-})();
+
+  // 上下篇用的是 #w=，同页改 hash 不会重新加载，手动重载一次
+  window.addEventListener("hashchange", function () { location.reload(); });
+}
+
+boot(false);
