@@ -83,6 +83,61 @@ button{font:inherit;color:inherit;}
   letter-spacing:.16em; color:var(--muted);
 }
 
+/* ---------- 她的两个平台（一张卡，头像只出现一次） ---------- */
+.profiles{margin-top:44px;}
+.profiles-head{
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.profile-box{max-width:560px;}
+.profile-card{
+  display:flex; gap:13px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--line);
+  padding:12px 16px; border-radius:2px;
+}
+.pc-avatar{
+  width:44px; height:44px; flex:0 0 44px; border-radius:50%;
+  object-fit:cover; border:1px solid var(--line); background:var(--paper-2);
+}
+.pc-main{min-width:0; flex:1;}
+.pc-head{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:3px;}
+.pc-nick{font-size:14px; color:var(--ink); letter-spacing:.04em;}
+.pc-uid{font-family:var(--sans); font-size:10px; color:var(--muted); letter-spacing:.06em;}
+
+/* 三列定宽：徽章 | 简介 | 数据。
+   简介列 flex:1 撑满，两行拿到完全相同的列宽，右边的数据列才会上下对齐——
+   之前用 gap + margin-left:auto，两行内容长度不同，数字就错开了。
+   垂直方向用 center 而不是 baseline：简介 12px、数据 10px，字号不同时
+   baseline 对齐会让数字看起来偏下，居中对齐视觉上才平。 */
+.pc-row{
+  display:flex; align-items:center; gap:12px;
+  padding:5px 0; color:inherit; text-decoration:none;
+}
+.pc-row + .pc-row{border-top:1px solid var(--line);}
+.pc-platform{
+  font-family:var(--sans); font-size:9.5px; letter-spacing:.14em;
+  color:#fff; padding:2px 6px 1px; border-radius:2px; line-height:1.6;
+  flex:0 0 46px; width:46px; text-align:center; box-sizing:border-box;
+  transition:opacity .18s;
+}
+.pc-platform.dy{background:#26241f;}
+.pc-platform.xhs{background:#c03a3a;}
+.pc-row:hover .pc-platform{opacity:.78;}
+/* 简介用默认无衬线（和数字同一套），不加衬线、不加粗；
+   字号跟数据行接近，读起来是一整行而不是两种字体拼在一起 */
+.pc-sig{
+  font-family:var(--sans);
+  font-size:12px; color:var(--ink-3); letter-spacing:.01em;
+  flex:1 1 auto; min-width:0; line-height:1.7;
+}
+/* 数据列给一个最小宽度并左对齐：两行内容长短不同，但列起点一致，
+   三列（徽章 / 简介 / 数据）才能各自连成一条竖线 */
+.pc-nums{
+  font-family:var(--sans); font-size:10px; color:var(--muted);
+  letter-spacing:.03em; flex:0 0 auto; min-width:180px;
+  text-align:left; white-space:nowrap;
+}
+
 /* ---------- 故事摘要 ---------- */
 .teaser{margin-top:64px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper-2);}
 .teaser .wrap{padding-top:58px; padding-bottom:58px;}
@@ -242,8 +297,14 @@ button{font:inherit;color:inherit;}
 }
 .fp-foot button:hover{border-bottom-color:var(--accent);}
 
-.masonry{columns:4; column-gap:18px;}
-.tile{display:block; break-inside:avoid; margin-bottom:26px;}
+/* 行优先的瀑布流：JS 把卡片轮流分到各列（1→列1, 2→列2…），
+   列内独立堆叠——顺序是一行一行，又不像 Grid 那样在矮卡片下留洞 */
+.masonry{display:flex; gap:18px; align-items:flex-start;}
+.mcol{
+  flex:1 1 0; min-width:0;
+  display:flex; flex-direction:column; gap:26px;
+}
+.tile{display:block;}
 .tile-img{
   position:relative; overflow:hidden;
   background:#efece5; border:1px solid var(--line);
@@ -359,12 +420,28 @@ button{font:inherit;color:inherit;}
 .work-body{max-width:560px; margin:44px auto 0; padding:0 18px;}
 .shot{position:relative; margin-bottom:18px; background:var(--card); border:1px solid var(--line);}
 .shot img{width:100%; height:auto; display:block; cursor:zoom-in;}
+/* 原图自带白边（小红书 2:3 垫成 3:4）时，按裁后的比例给容器定高、
+   图片 cover 填满——因为填充边是左右对称的，cover 正好把它裁掉，
+   裁掉的是填充物不是画面。没有 crop 的图完全走原来的自然高度。 */
+.shot.cropped img{height:100%; object-fit:cover;}
 .shot .live-tag{
-  position:absolute; top:10px; left:10px;
-  font-family:var(--sans); font-size:9px; letter-spacing:.1em;
-  background:rgba(255,255,255,.92); color:#3a3833;
-  padding:3px 7px; border-radius:2px; cursor:pointer;
+  position:absolute; top:10px; left:10px; z-index:2;
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--sans); font-size:10px; letter-spacing:.14em;
+  background:rgba(20,18,16,.74); color:#fff;
+  padding:4px 10px 3px; border-radius:3px; cursor:pointer;
   -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  transition:background .18s;
+}
+.shot .live-tag::before{
+  content:""; width:5px; height:5px; border-radius:50%; background:#ff5a4d;
+  animation:livepulse 2s infinite;
+}
+.shot .live-tag:hover{background:rgba(20,18,16,.92);}
+@keyframes livepulse{
+  0%{box-shadow:0 0 0 0 rgba(255,90,77,.6);}
+  70%{box-shadow:0 0 0 6px rgba(255,90,77,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,90,77,0);}
 }
 .shot video{
   position:absolute; inset:0; width:100%; height:100%;
@@ -462,6 +539,11 @@ button{font:inherit;color:inherit;}
 .lightbox[hidden]{display:none;}
 .lb-figure{max-width:94vw; max-height:92vh; display:flex; flex-direction:column; align-items:center;}
 .lb-figure img{max-width:94vw; max-height:86vh; width:auto; height:auto; object-fit:contain;}
+.lb-figure video{
+  max-width:94vw; max-height:86vh; width:auto; height:auto;
+  object-fit:contain; background:#000;
+}
+.lb-figure img[hidden], .lb-figure video[hidden]{display:none;}
 .lb-figure figcaption{
   margin-top:14px; font-family:var(--sans); font-size:11px;
   color:rgba(255,255,255,.6); letter-spacing:.1em;
@@ -672,11 +754,11 @@ button{font:inherit;color:inherit;}
 
 /* ---------- 响应式 ---------- */
 @media (max-width:1180px){
-  .masonry{columns:3;}
+  .mcol{gap:22px;}
 }
 @media (max-width:860px){
-  .masonry{columns:3; column-gap:14px;}
-  .tile{margin-bottom:20px;}
+  .masonry{gap:14px;}
+  .mcol{gap:20px;}
   .feature{grid-template-columns:1fr; padding:36px 30px; gap:0;}
   .feature-side{display:none;}
   .teaser-mark{display:none;}
@@ -690,6 +772,15 @@ button{font:inherit;color:inherit;}
   .wrap{padding:0 20px;}
   .hero{padding:60px 0 0;}
   .hero h1{letter-spacing:.1em; text-indent:.1em;}
+  .profiles{margin-top:36px;}
+  .profile-card{padding:14px; gap:12px;}
+  .pc-avatar{width:40px; height:40px; flex-basis:40px;}
+  /* 窄屏放不下一行三列：徽章占左列，简介和数据都缩进到右列，
+     这样数据行的左边缘和简介对齐，不会像之前那样贴到卡片最左边 */
+  .pc-row{display:grid; grid-template-columns:46px minmax(0,1fr); gap:2px 10px; padding:7px 0;}
+  .pc-platform{justify-self:start;}
+  .pc-sig{grid-column:2; font-size:12px; letter-spacing:0;}
+  .pc-nums{grid-column:2; text-align:left; white-space:normal; margin-top:2px;}
   .teaser{margin-top:44px;}
   .teaser .wrap{padding-top:40px; padding-bottom:40px;}
   .teaser p{font-size:14.5px; line-height:2;}
@@ -697,8 +788,8 @@ button{font:inherit;color:inherit;}
   .gallery-head{margin-top:60px;}
   .filterbar{flex-wrap:wrap; gap:12px;}
   .funnel{margin-left:auto;}
-  .masonry{columns:2; column-gap:12px;}
-  .tile{margin-bottom:16px;}
+  .masonry{gap:12px;}
+  .mcol{gap:18px;}
   .tile-title{font-size:12.5px; line-height:1.6;}
   .tile-meta{font-size:9.5px;}
   .story{padding:48px 20px 0;}
@@ -730,7 +821,7 @@ button{font:inherit;color:inherit;}
   .article p, .q, .sign, .src{page-break-inside:avoid;}
   .q{page-break-inside:auto;}
   .sec, .h1{page-break-after:avoid;}
-  .clips-row{display:grid; grid-template-columns:repeat(3,1fr); overflow:visible;}
+  .clips-row{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); overflow:visible;}
   .clips-row figure{width:auto;}
   a{color:inherit;}
 }

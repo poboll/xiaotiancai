@@ -50,5 +50,31 @@ window.SITE = {
     ]
   },
 
+  /* 她的两个平台。头像两个平台是同一张，所以只放一次。
+     数据取 2026-11-19，原图在 assets/avatars/ */
+  profile: {
+    nick: "小天才.",
+    uid: "Xiaotiancaiylt",
+    avatar: "assets/avatars/douyin.jpeg",
+    platforms: [
+      {
+        name: "抖音",
+        cls: "dy",
+        signature: "阳谋无解 · 抵制虐待动物",
+        nums: "21.7万 粉丝　282.6万 获赞　61 作品",
+        href: "https://www.douyin.com/user/MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU",
+        cta: "抖音主页"
+      },
+      {
+        name: "小红书",
+        cls: "xhs",
+        signature: "166 45 · 自由模特 · 23岁 云南昆明",
+        nums: "4424 粉丝　1.97万 获赞　80 笔记",
+        href: "https://www.xiaohongshu.com/user/profile/5b9e2fa4ba9ee90001013d7b",
+        cta: "小红书主页"
+      }
+    ]
+  },
+
   douyin: "https://www.douyin.com/user/MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU"
 };
