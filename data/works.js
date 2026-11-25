@@ -61,7 +61,7 @@ window.SITE = {
         name: "抖音",
         cls: "dy",
         signature: "阳谋无解 · 抵制虐待动物",
-        nums: "21.7万 粉丝　282.6万 获赞　61 作品",
+        nums: "21.7万 粉丝　285.6万 获赞　63 作品",
         href: "https://www.douyin.com/user/MS4wLjABAAAAZpTz6a55SPliaMyIJZ20O5478KGwf_tF1YR2mYe_5yU",
         cta: "抖音主页"
       },
